@@ -11,12 +11,12 @@ body {
   display:flex; align-items:center; justify-content:center;
   background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
   font-family:'Segoe UI','Microsoft YaHei',sans-serif;
-  color:#fff;
+  color:#fff; overflow-x:hidden; overflow-y:auto;
 }
-.container { display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px; }
+.container { display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px; width:100%; max-width:600px; }
 .back { align-self:flex-start; color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; }
 .back:hover { color:var(--accent); }
-h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
+h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
 .game-info { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
 .score-board {
   display:flex; flex-direction:column; align-items:center;
@@ -30,20 +30,21 @@ h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glo
 .board {
   display:grid;
   grid-template-columns:repeat(8,1fr);
-  gap:4px;
-  padding:8px;
+  gap: clamp(2px, 0.8vw, 4px);
+  padding: clamp(4px, 1.5vw, 8px);
   background:rgba(0,0,0,.3);
   border:2px solid var(--border);
   border-radius:12px;
   box-shadow:0 0 30px var(--accent-glow);
+  width: min(100%, calc(8 * 48px + 7 * 4px + 16px));
 }
 
 /* 宝石格 */
 .gem {
-  width:48px; height:48px;
+  aspect-ratio: 1;
   border-radius:10px;
   display:flex; align-items:center; justify-content:center;
-  font-size:1.5rem;
+  font-size:clamp(1rem, 3.5vw, 1.5rem);
   background:var(--cell);
   cursor:pointer;
   transition:transform .12s, box-shadow .12s, opacity .2s;
@@ -66,7 +67,7 @@ h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glo
   100% { transform:scale(0);   opacity:0; }
 }
 @keyframes gemFall {
-  0%   { transform:translateY(-48px); }
+  0%   { transform:translateY(calc(-1 * clamp(32px, 8vw, 48px))); }
   100% { transform:translateY(0); }
 }
 
@@ -127,5 +128,24 @@ h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glo
 }
 
 @media (max-width:500px) {
-  .gem { width:38px; height:38px; font-size:1.2rem; }
+  .gem { font-size:clamp(.8rem, 3vw, 1.2rem); }
+}
+
+/* 平板适配 */
+@media (max-width: 768px) {
+  .container { padding: 16px; gap: 10px; }
+  .game-info { gap: 8px; }
+  .score-board { padding: 4px 12px; min-width: 65px; }
+}
+
+/* 手机适配 */
+@media (max-width: 480px) {
+  .container { padding: 12px; gap: 8px; }
+  .game-info { gap: 6px; }
+  .score-board { padding: 3px 8px; min-width: 55px; }
+  .score-board .label { font-size: .55rem; }
+  .score-board span:last-child { font-size: 1rem; }
+  .board { width: min(100%, calc(100vw - 32px)); }
+  .msg-box { padding: 24px 20px; }
+  #msg-title { font-size: 1.5rem; }
 }

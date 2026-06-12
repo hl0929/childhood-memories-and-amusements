@@ -20,14 +20,21 @@ const bgCanvas     = document.getElementById('bg');
 
 // ==================== 高 DPI 适配 ====================
 const dpr  = window.devicePixelRatio || 1;
-const SIZE = 400;
+let SIZE = 400;
+// 根据屏幕大小动态调整画布尺寸
+function calcCanvasSize() {
+  const maxW = Math.min(window.innerWidth - 48, 400);
+  const maxH = window.innerHeight - 260;
+  return Math.max(200, Math.min(maxW, maxH, 400));
+}
+SIZE = calcCanvasSize();
 canvas.width  = SIZE * dpr;
 canvas.height = SIZE * dpr;
 canvas.style.width  = SIZE + 'px';
 canvas.style.height = SIZE + 'px';
 ctx.scale(dpr, dpr);
 
-const CELL = SIZE / GRID;
+let CELL = SIZE / GRID;
 
 // ==================== 离屏缓存：网格 ====================
 const gridCanvas  = document.createElement('canvas');

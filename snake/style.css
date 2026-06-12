@@ -28,7 +28,8 @@ body {
   background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
   color: #fff;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .container {
@@ -37,10 +38,12 @@ body {
   align-items: center;
   gap: 16px;
   padding: 24px;
+  width: 100%;
+  max-width: 500px;
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: clamp(1.3rem, 4vw, 2rem);
   letter-spacing: 4px;
   text-shadow: 0 0 20px var(--accent-glow);
 }
@@ -49,6 +52,8 @@ h1 {
 .game-info {
   display: flex;
   gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .score-board {
@@ -214,20 +219,40 @@ canvas {
   transform: scale(0.92);
 }
 
-/* ==================== 移动端适配 ==================== */
+/* ==================== 画布自适应 ====================*/
+.canvas-wrapper {
+  width: 100%;
+  max-width: 400px;
+}
+.canvas-wrapper canvas {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+}
+
+/* ==================== 移动端适配 ====================*/
 @media (hover: none) and (pointer: coarse) {
   .mobile-controls { display: flex; }
   .controls .hint  { display: none; }
 }
 
+@media (max-width: 768px) {
+  .container { padding: 16px; gap: 12px; }
+  .score-board { padding: 6px 16px; min-width: 70px; }
+  .score-board .label { font-size: .65rem; }
+  #score, #high-score, #speed { font-size: 1.2rem; }
+}
+
 @media (max-width: 480px) {
+  .container { padding: 12px; gap: 10px; }
   .mobile-controls { display: flex; }
   .controls .hint  { display: none; }
-  canvas {
-    width: 92vw !important;
-    height: 92vw !important;
-  }
-  h1 { font-size: 1.4rem; }
+  .game-info { gap: 12px; }
+  .score-board { padding: 5px 12px; min-width: 60px; }
+  .score-board .label { font-size: .6rem; }
+  #score, #high-score, #speed { font-size: 1rem; }
+  .dir-btn { width: 50px; height: 50px; font-size: 1.1rem; }
+  .canvas-wrapper { max-width: min(92vw, 400px); }
 }
 
 /* ==================== 减少动画偏好 ==================== */

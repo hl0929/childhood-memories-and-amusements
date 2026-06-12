@@ -12,12 +12,12 @@ body {
   display:flex; align-items:center; justify-content:center;
   background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
   font-family:'Segoe UI','Microsoft YaHei',sans-serif;
-  color:#fff;
+  color:#fff; overflow-x:hidden; overflow-y:auto;
 }
-.container { display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px; }
+.container { display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px; width:100%; max-width:600px; }
 .back { align-self:flex-start; color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; }
 .back:hover { color:var(--accent); }
-h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
+h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
 .game-info { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
 .score-board {
   display:flex; flex-direction:column; align-items:center;
@@ -38,12 +38,13 @@ h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glo
 /* 棋盘 */
 .board {
   display:grid;
-  gap:8px;
+  gap: clamp(4px, 1.5vw, 8px);
+  width: min(100%, 500px);
 }
 
 /* 翻牌卡片 - 3D flip */
 .card {
-  width:70px; height:70px;
+  aspect-ratio: 1;
   perspective:600px;
   cursor:pointer;
 }
@@ -72,7 +73,7 @@ h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glo
   background:var(--card-face);
   border:2px solid var(--accent);
   transform:rotateY(180deg);
-  font-size:2rem;
+  font-size:clamp(1.2rem, 4vw, 2rem);
   box-shadow:0 0 10px var(--accent-glow);
 }
 .card.matched .card-front {
@@ -115,6 +116,27 @@ h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glo
 }
 
 @media (max-width:520px) {
-  .card { width:56px; height:56px; }
-  .card-front { font-size:1.6rem; }
+  .card-front { font-size:clamp(1rem, 4vw, 1.6rem); }
+  .score-board { padding: 4px 10px; min-width: 60px; }
+  .score-board .label { font-size: .5rem; }
+  .score-board span:last-child { font-size: 1rem; }
+  .diff-btn { padding: 4px 10px; font-size: .7rem; }
+}
+
+/* 平板适配 */
+@media (max-width: 768px) {
+  .container { padding: 16px; gap: 10px; }
+  .game-info { gap: 8px; }
+  .score-board { padding: 4px 12px; min-width: 65px; }
+}
+
+/* 手机适配 */
+@media (max-width: 480px) {
+  .container { padding: 12px; gap: 8px; }
+  .game-info { gap: 6px; }
+  .score-board { padding: 3px 8px; min-width: 55px; }
+  .score-board .label { font-size: .5rem; }
+  .score-board span:last-child { font-size: .9rem; }
+  .diff-btn { padding: 3px 8px; font-size: .65rem; }
+  .board { width: min(100%, calc(100vw - 32px)); }
 }

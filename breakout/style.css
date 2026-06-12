@@ -10,13 +10,13 @@ body {
   display:flex; align-items:center; justify-content:center;
   background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
   font-family:'Segoe UI','Microsoft YaHei',sans-serif;
-  color:#fff; overflow:hidden;
+  color:#fff; overflow-x:hidden; overflow-y:auto;
 }
-.container { display:flex; flex-direction:column; align-items:center; gap:14px; padding:20px; }
+.container { display:flex; flex-direction:column; align-items:center; gap:14px; padding:20px; width:100%; max-width:600px; }
 .back { align-self:flex-start; color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; }
 .back:hover { color:var(--accent); }
-h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
-.game-info { display:flex; gap:16px; }
+h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
+.game-info { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
 .score-board {
   display:flex; flex-direction:column; align-items:center;
   background:var(--panel); border:1px solid var(--border);
@@ -28,8 +28,14 @@ h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glo
   position:relative;
   border:2px solid var(--border); border-radius:8px; overflow:hidden;
   box-shadow:0 0 30px var(--accent-glow);
+  width:100%;
+  max-width: 480px;
 }
-canvas { display:block; }
+.canvas-wrapper canvas {
+  display:block;
+  width: 100% !important;
+  height: auto !important;
+}
 .overlay {
   position:absolute; inset:0;
   background:rgba(0,0,0,.75); backdrop-filter:blur(4px);
@@ -39,3 +45,24 @@ canvas { display:block; }
 #overlay-title { font-size:1.8rem; font-weight:700; color:var(--accent); text-shadow:0 0 12px var(--accent-glow); }
 #overlay-sub   { font-size:.9rem; color:rgba(255,255,255,.7); }
 .controls { font-size:.75rem; color:rgba(255,255,255,.35); }
+
+/* 平板适配 */
+@media (max-width: 768px) {
+  .container { padding: 16px; gap: 10px; }
+  .game-info { gap: 10px; }
+  .score-board { padding: 5px 12px; min-width: 60px; }
+  .score-board .label { font-size: .6rem; }
+  .score-board span:last-child { font-size: 1.1rem; }
+}
+
+/* 手机适配 */
+@media (max-width: 480px) {
+  .container { padding: 12px; gap: 8px; }
+  .game-info { gap: 8px; }
+  .score-board { padding: 4px 10px; min-width: 55px; }
+  .score-board .label { font-size: .55rem; }
+  .score-board span:last-child { font-size: 1rem; }
+  #overlay-title { font-size: 1.4rem; }
+  #overlay-sub { font-size: .8rem; }
+  .controls { font-size: .7rem; }
+}

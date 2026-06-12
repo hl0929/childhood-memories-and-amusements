@@ -11,8 +11,10 @@ body {
   font-family:'Segoe UI','Microsoft YaHei',sans-serif;
   color:#fff;
   display:flex; align-items:center; justify-content:center;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
-.container { display:flex; flex-direction:column; align-items:center; gap:16px; padding:20px; }
+.container { display:flex; flex-direction:column; align-items:center; gap:16px; padding:20px; width:100%; max-width:700px; }
 .back {
   align-self:flex-start;
   color:rgba(255,255,255,.5);
@@ -21,15 +23,16 @@ body {
   transition:color .2s;
 }
 .back:hover { color:#00ff88; }
-h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px rgba(0,255,136,.4); }
-.layout { display:flex; gap:20px; align-items:flex-start; }
+h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 16px rgba(0,255,136,.4); }
+.layout { display:flex; gap:20px; align-items:flex-start; width:100%; justify-content:center; }
 .canvas-wrap {
   position:relative;
   border-radius:8px; overflow:hidden;
   border:2px solid var(--border);
   box-shadow:0 0 30px rgba(0,255,136,.1);
+  flex-shrink: 0;
 }
-canvas#board { display:block; background:#111827; }
+canvas#board { display:block; background:#111827; max-width:100%; height:auto; }
 .overlay {
   position:absolute; inset:0;
   background:rgba(0,0,0,.75);
@@ -68,7 +71,40 @@ canvas#preview { display:block; margin:6px auto 0; }
   transition:background .15s;
 }
 .mobile-btns button:active { background:rgba(0,255,136,.3); }
+
+/* 画布自适应 */
+.canvas-wrap canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
 @media (hover:none),(max-width:520px) {
   .mobile-btns { display:flex; }
   .hint { display:none; }
+}
+
+/* 平板适配 */
+@media (max-width: 768px) {
+  .container { padding: 16px; gap: 12px; }
+  .layout { gap: 12px; }
+  .side { min-width: 100px; gap: 8px; }
+  .panel { padding: 8px 10px; }
+  .panel .value { font-size: 1.2rem; }
+}
+
+/* 手机适配 - 垂直布局 */
+@media (max-width: 520px) {
+  .container { padding: 12px; gap: 10px; }
+  .layout { flex-direction: column; align-items: center; gap: 10px; }
+  .side {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: unset;
+    gap: 8px;
+  }
+  .panel { padding: 6px 12px; }
+  .panel .label { font-size: .6rem; }
+  .panel .value { font-size: 1.1rem; }
+  .mobile-btns button { width: 52px; height: 52px; font-size: 1.1rem; }
 }

@@ -1,6 +1,14 @@
 // ==================== 配置 ====================
 const COLS = 10, ROWS = 20;
-const BLOCK = 30; // px per cell
+// 根据屏幕大小动态计算方块大小
+function calcBlockSize() {
+  const maxW = Math.min(window.innerWidth - 200, 300); // 留出侧边栏空间
+  const maxH = window.innerHeight - 200;
+  const fromW = Math.floor(maxW / COLS);
+  const fromH = Math.floor(maxH / ROWS);
+  return Math.max(16, Math.min(30, fromW, fromH));
+}
+let BLOCK = calcBlockSize();
 
 // 七种方块及颜色
 const PIECES = [

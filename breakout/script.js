@@ -21,8 +21,9 @@ const ovSub      = document.getElementById('overlay-sub');
 
 canvas.width  = W;
 canvas.height = H;
-canvas.style.width  = W + 'px';
-canvas.style.height = H + 'px';
+// CSS 尺寸由 CSS 自适应控制，不再固定 style.width/height
+// canvas.style.width  = W + 'px';
+// canvas.style.height = H + 'px';
 
 // ==================== 状态 ====================
 let pad, ball, bricks, score, highScore, level, lives, running, paused, launched, raf;
@@ -289,9 +290,13 @@ document.addEventListener('keydown', e => {
 document.addEventListener('keyup', e => { keys[e.key] = false; });
 
 // 鼠标 / 触摸控制挡板
-canvas.addEventListener('mousemove', e => {
+function canvasToGameX(clientX) {
   const rect = canvas.getBoundingClientRect();
-  const mx = e.clientX - rect.left;
+  const scaleX = W / rect.width;
+  return (clientX - rect.left) * scaleX;
+}
+canvas.addEventListener('mousemove', e => {
+  const mx = canvasToGameX(e.clientX);
   pad.x = Math.max(0, Math.min(W - pad.w, mx - pad.w/2));
 });
 canvas.addEventListener('click', () => {
@@ -305,8 +310,7 @@ canvas.addEventListener('touchstart', e => {
   e.preventDefault();
 }, {passive:false});
 canvas.addEventListener('touchmove', e => {
-  const rect = canvas.getBoundingClientRect();
-  const mx = e.touches[0].clientX - rect.left;
+  const mx = canvasToGameX(e.touches[0].clientX);
   pad.x = Math.max(0, Math.min(W - pad.w, mx - pad.w/2));
   e.preventDefault();
 }, {passive:false});
