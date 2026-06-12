@@ -1,0 +1,114 @@
+:root {
+  --accent: #ff9500;
+  --accent-glow: rgba(255,149,0,0.4);
+  --panel: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.1);
+  --hole: #1a0e00;
+  --mole: #8B4513;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  font-family:'Segoe UI','Microsoft YaHei',sans-serif;
+  color:#fff; overflow:hidden;
+}
+.container { display:flex; flex-direction:column; align-items:center; gap:16px; padding:20px; }
+.back { align-self:flex-start; color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; }
+.back:hover { color:var(--accent); }
+h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
+.game-info { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+.score-board {
+  display:flex; flex-direction:column; align-items:center;
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:10px; padding:5px 16px; min-width:72px;
+}
+.score-board .label { font-size:.65rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.4); }
+.score-board span:last-child { font-size:1.2rem; font-weight:700; color:var(--accent); }
+
+/* 3×3 网格 */
+.board {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  padding:24px;
+  background:rgba(0,0,0,.3);
+  border:2px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 0 30px var(--accent-glow);
+}
+
+/* 洞 */
+.hole {
+  width:110px; height:110px;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 70%, #2a1500, #0a0600);
+  box-shadow:inset 0 8px 16px rgba(0,0,0,.7), 0 4px 8px rgba(0,0,0,.4);
+  position:relative;
+  overflow:hidden;
+  cursor:default;
+}
+
+/* 地鼠 */
+.mole {
+  position:absolute;
+  bottom:-100%;
+  left:50%; transform:translateX(-50%);
+  font-size:3.5rem;
+  line-height:1;
+  transition:bottom .12s ease-out;
+  cursor:pointer;
+  user-select:none;
+  filter:drop-shadow(0 -4px 8px rgba(0,0,0,.5));
+}
+.hole.up .mole   { bottom:0; }
+.hole.bomb .mole { bottom:0; }
+
+/* 打中特效 */
+.hole.whacked .mole { filter:brightness(2) drop-shadow(0 0 8px #fff); }
+.score-pop {
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:1.2rem; font-weight:700; color:#fff;
+  pointer-events:none;
+  animation:popUp .6s ease-out forwards;
+}
+@keyframes popUp {
+  0%   { opacity:1; transform:translate(-50%,-50%) scale(1); }
+  100% { opacity:0; transform:translate(-50%,-120%) scale(1.5); }
+}
+
+/* 开始按钮 */
+.start-btn {
+  padding:12px 40px; border-radius:30px;
+  background:linear-gradient(135deg,#ff9500,#ff6b00);
+  font-size:1.1rem; font-weight:700;
+  cursor:pointer; user-select:none;
+  box-shadow:0 4px 20px var(--accent-glow);
+  transition:transform .1s;
+}
+.start-btn:hover { transform:scale(1.05); }
+.start-btn.hidden { display:none; }
+
+/* 结果 */
+.result {
+  text-align:center;
+  background:#1a1a2e;
+  border:2px solid var(--accent); border-radius:14px;
+  padding:24px 40px;
+  display:flex; flex-direction:column; gap:14px;
+  box-shadow:0 0 24px var(--accent-glow);
+}
+.result.hidden { display:none; }
+#result-text { font-size:1.2rem; }
+.result button {
+  padding:8px 24px; border-radius:20px; border:none;
+  background:var(--accent); color:#fff; font-weight:700; cursor:pointer; font-size:1rem;
+}
+
+@media (max-width:420px) {
+  .hole { width:85px; height:85px; }
+  .mole { font-size:2.8rem; }
+}

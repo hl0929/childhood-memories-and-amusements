@@ -1,0 +1,131 @@
+:root {
+  --accent: #dd44ff;
+  --accent-glow: rgba(221,68,255,0.4);
+  --panel: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.1);
+  --cell: rgba(255,255,255,0.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  font-family:'Segoe UI','Microsoft YaHei',sans-serif;
+  color:#fff;
+}
+.container { display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px; }
+.back { align-self:flex-start; color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; }
+.back:hover { color:var(--accent); }
+h1 { font-size:1.8rem; letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
+.game-info { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.score-board {
+  display:flex; flex-direction:column; align-items:center;
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:10px; padding:5px 16px; min-width:72px;
+}
+.score-board .label { font-size:.65rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.4); }
+.score-board span:last-child { font-size:1.2rem; font-weight:700; color:var(--accent); }
+
+/* 棋盘 */
+.board {
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:4px;
+  padding:8px;
+  background:rgba(0,0,0,.3);
+  border:2px solid var(--border);
+  border-radius:12px;
+  box-shadow:0 0 30px var(--accent-glow);
+}
+
+/* 宝石格 */
+.gem {
+  width:48px; height:48px;
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem;
+  background:var(--cell);
+  cursor:pointer;
+  transition:transform .12s, box-shadow .12s, opacity .2s;
+  user-select:none;
+  position:relative;
+}
+.gem:hover { transform:scale(1.08); }
+.gem.selected {
+  box-shadow:0 0 0 3px #fff, 0 0 12px var(--accent);
+  transform:scale(1.12);
+}
+.gem.removing {
+  animation:gemPop .25s ease-out forwards;
+}
+.gem.falling {
+  animation:gemFall .2s ease-in;
+}
+@keyframes gemPop {
+  0%   { transform:scale(1.2); opacity:1; }
+  100% { transform:scale(0);   opacity:0; }
+}
+@keyframes gemFall {
+  0%   { transform:translateY(-48px); }
+  100% { transform:translateY(0); }
+}
+
+.hint { font-size:.75rem; color:rgba(255,255,255,.35); }
+
+/* 无效交换抖动 */
+.gem.invalid {
+  animation:shake .35s ease;
+  border:2px solid #ff4444;
+}
+@keyframes shake {
+  0%,100% { transform:translateX(0); }
+  20%     { transform:translateX(-5px); }
+  40%     { transform:translateX(5px); }
+  60%     { transform:translateX(-4px); }
+  80%     { transform:translateX(4px); }
+}
+
+/* 连锁弹出 */
+.chain-pop {
+  position:fixed;
+  top:40%;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:1.6rem;
+  font-weight:800;
+  color:#ffd700;
+  text-shadow:0 0 12px rgba(255,215,0,.7);
+  pointer-events:none;
+  animation:chainFloat .9s ease-out forwards;
+  z-index:99;
+}
+@keyframes chainFloat {
+  0%   { opacity:1; transform:translateX(-50%) scale(0.8) translateY(0); }
+  50%  { opacity:1; transform:translateX(-50%) scale(1.2) translateY(-20px); }
+  100% { opacity:0; transform:translateX(-50%) scale(1)   translateY(-50px); }
+}
+
+/* 弹窗 */
+.msg {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.7); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+}
+.msg.hidden { display:none; }
+.msg-box {
+  background:#1a1a2e;
+  border:2px solid var(--accent); border-radius:16px;
+  padding:32px 48px; text-align:center;
+  display:flex; flex-direction:column; gap:14px;
+  box-shadow:0 0 30px var(--accent-glow);
+}
+#msg-title { font-size:2rem; font-weight:700; }
+#msg-sub   { color:rgba(255,255,255,.7); }
+.msg-box button {
+  padding:8px 24px; border-radius:20px; border:none;
+  background:var(--accent); color:#fff; font-weight:700; cursor:pointer; font-size:1rem;
+}
+
+@media (max-width:500px) {
+  .gem { width:38px; height:38px; font-size:1.2rem; }
+}

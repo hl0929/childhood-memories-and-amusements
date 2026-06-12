@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2048</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🔢 2048</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">得分</span><span id="score">0</span></div>
+      <div class="score-board"><span class="label">最高分</span><span id="high-score">0</span></div>
+    </div>
+    <div id="board" class="board"></div>
+    <div class="controls">方向键 / WASD / 滑动 移动 &nbsp;|&nbsp; R 重新开始</div>
+    <div id="msg" class="msg hidden"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

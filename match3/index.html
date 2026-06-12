@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消消乐</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>💎 消消乐</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">得分</span><span id="score">0</span></div>
+      <div class="score-board"><span class="label">最高分</span><span id="high-score">0</span></div>
+      <div class="score-board"><span class="label">步数</span><span id="moves">30</span></div>
+      <div class="score-board"><span class="label">目标</span><span id="target">500</span></div>
+    </div>
+    <div id="board" class="board"></div>
+    <div class="hint">点击两个相邻宝石交换，消除 3+ 个同色宝石</div>
+    <div id="msg" class="msg hidden">
+      <div class="msg-box">
+        <p id="msg-title"></p>
+        <p id="msg-sub"></p>
+        <button onclick="initGame()">再玩一次</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

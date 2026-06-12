@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>俄罗斯方块</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🟦 俄罗斯方块</h1>
+    <div class="layout">
+      <div class="canvas-wrap">
+        <canvas id="board"></canvas>
+        <div id="overlay" class="overlay">
+          <div class="overlay-content">
+            <p id="ov-title">俄罗斯方块</p>
+            <p id="ov-sub">按空格 / 点击开始</p>
+          </div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="panel">
+          <div class="label">下一个</div>
+          <canvas id="preview"></canvas>
+        </div>
+        <div class="panel">
+          <div class="label">得分</div>
+          <div id="score" class="value">0</div>
+        </div>
+        <div class="panel">
+          <div class="label">等级</div>
+          <div id="level" class="value">1</div>
+        </div>
+        <div class="panel">
+          <div class="label">消行</div>
+          <div id="lines" class="value">0</div>
+        </div>
+        <div class="hint">
+          <b>操作：</b><br>
+          ← → 移动<br>
+          ↑ / Z 旋转<br>
+          ↓ 加速下落<br>
+          空格 硬降<br>
+          P 暂停
+        </div>
+      </div>
+    </div>
+    <div class="mobile-btns">
+      <button id="mb-left">◀</button>
+      <button id="mb-rotate">↻</button>
+      <button id="mb-right">▶</button>
+      <button id="mb-down">▼</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

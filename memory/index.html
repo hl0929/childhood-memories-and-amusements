@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记忆翻牌</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🃏 记忆翻牌</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">翻牌次数</span><span id="flips">0</span></div>
+      <div class="score-board"><span class="label">已匹配</span><span id="matched">0</span></div>
+      <div class="score-board"><span class="label">用时</span><span id="timer">0s</span></div>
+      <div class="score-board"><span class="label">最佳翻牌</span><span id="best">--</span></div>
+    </div>
+    <div class="difficulty">
+      <button class="diff-btn active" data-cols="4" data-rows="4">4×4</button>
+      <button class="diff-btn" data-cols="4" data-rows="5">4×5</button>
+      <button class="diff-btn" data-cols="6" data-rows="5">6×5</button>
+    </div>
+    <div id="board" class="board"></div>
+    <button id="restart-btn" class="restart-btn">重新开始</button>
+    <div id="win-msg" class="win-msg hidden">
+      <div class="win-box">
+        <p class="win-title">🎉 完成！</p>
+        <p id="win-detail"></p>
+        <button onclick="startGame()">再玩一次</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

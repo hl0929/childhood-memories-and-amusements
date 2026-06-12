@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>贪吃蛇</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🐍 贪吃蛇</h1>
+    <div class="game-info">
+      <div class="score-board">
+        <span class="label">得分</span>
+        <span id="score">0</span>
+        <span id="score-pop"></span>
+      </div>
+      <div class="score-board">
+        <span class="label">最高分</span>
+        <span id="high-score">0</span>
+      </div>
+      <div class="score-board">
+        <span class="label">速度</span>
+        <span id="speed">1</span>
+      </div>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="game"></canvas>
+      <div id="overlay" class="overlay">
+        <div class="overlay-content">
+          <p id="overlay-title">贪吃蛇</p>
+          <p id="overlay-sub">按任意方向键开始游戏</p>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <p class="hint">方向键 / WASD 控制方向 &nbsp;|&nbsp; P 暂停 &nbsp;|&nbsp; R 重新开始</p>
+    </div>
+    <!-- 移动端虚拟方向键 -->
+    <div class="mobile-controls">
+      <button class="dir-btn up" id="btn-up">▲</button>
+      <div class="dir-row">
+        <button class="dir-btn left" id="btn-left">◀</button>
+        <button class="dir-btn down" id="btn-down">▼</button>
+        <button class="dir-btn right" id="btn-right">▶</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

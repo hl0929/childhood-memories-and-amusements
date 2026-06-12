@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>打地鼠</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🔨 打地鼠</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">得分</span><span id="score">0</span></div>
+      <div class="score-board"><span class="label">最高分</span><span id="high-score">0</span></div>
+      <div class="score-board"><span class="label">连击</span><span id="combo">0</span></div>
+      <div class="score-board"><span class="label">时间</span><span id="timer">30s</span></div>
+    </div>
+    <div id="board" class="board">
+      <!-- 9 个洞 -->
+    </div>
+    <div id="start-btn" class="start-btn">点击开始</div>
+    <div id="result" class="result hidden">
+      <p id="result-text"></p>
+      <button onclick="startGame()">再来一局</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

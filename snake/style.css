@@ -1,0 +1,240 @@
+/* ==================== 主题变量 ==================== */
+:root {
+  --bg-dark: #1a1a2e;
+  --accent: #00ff88;
+  --accent-dim: rgba(0, 255, 136, 0.15);
+  --accent-glow: rgba(0, 255, 136, 0.5);
+  --food-red: #ff5050;
+  --food-gold: #ffd700;
+  --panel-bg: rgba(255, 255, 255, 0.06);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --text-dim: rgba(255, 255, 255, 0.5);
+  --text-sub: rgba(255, 255, 255, 0.7);
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* ==================== 全局重置 ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+h1 {
+  font-size: 2rem;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* ==================== 得分区域 ==================== */
+.game-info {
+  display: flex;
+  gap: 24px;
+}
+
+.score-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 8px 24px;
+  min-width: 90px;
+  position: relative;
+}
+
+.score-board .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+}
+
+/* 修复：精确选择分数值元素，不受 #score-pop 影响 */
+#score,
+#high-score,
+#speed {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  transition: transform 0.15s;
+}
+
+#score.bump {
+  animation: numBump 0.2s ease;
+}
+
+@keyframes numBump {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* ==================== 得分弹出动画 ==================== */
+#score-pop {
+  position: absolute;
+  top: -4px;
+  right: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  pointer-events: none;
+  opacity: 0;
+}
+
+#score-pop.pop {
+  animation: scorePop 0.6s ease-out forwards;
+}
+
+@keyframes scorePop {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  50%  { transform: translateY(-14px) scale(1.2); }
+  100% { opacity: 0; transform: translateY(-28px) scale(0.8); }
+}
+
+/* ==================== 画布 ==================== */
+.canvas-wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 40px var(--accent-dim),
+              0 0 80px rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--panel-border);
+}
+
+.canvas-wrapper.shake {
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%  { transform: translateX(-6px); }
+  40%  { transform: translateX(6px); }
+  60%  { transform: translateX(-4px); }
+  80%  { transform: translateX(4px); }
+}
+
+canvas {
+  display: block;
+  background: var(--bg-dark);
+  image-rendering: auto;
+}
+
+/* ==================== 遮罩层 ==================== */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-content {
+  text-align: center;
+}
+
+#overlay-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--accent);
+  text-shadow: 0 0 12px var(--accent-glow);
+}
+
+#overlay-sub {
+  font-size: 0.95rem;
+  color: var(--text-sub);
+}
+
+/* ==================== 提示 ==================== */
+.controls .hint {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ==================== 移动端虚拟方向键 ==================== */
+.mobile-controls {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.dir-row {
+  display: flex;
+  gap: 4px;
+}
+
+.dir-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  border: none;
+  background: var(--panel-bg);
+  color: var(--accent);
+  font-size: 1.2rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.dir-btn:active {
+  background: rgba(0, 255, 136, 0.3);
+  transform: scale(0.92);
+}
+
+/* ==================== 移动端适配 ==================== */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-controls { display: flex; }
+  .controls .hint  { display: none; }
+}
+
+@media (max-width: 480px) {
+  .mobile-controls { display: flex; }
+  .controls .hint  { display: none; }
+  canvas {
+    width: 92vw !important;
+    height: 92vw !important;
+  }
+  h1 { font-size: 1.4rem; }
+}
+
+/* ==================== 减少动画偏好 ==================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

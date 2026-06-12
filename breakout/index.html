@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>打砖块</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🧱 打砖块</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">得分</span><span id="score">0</span></div>
+      <div class="score-board"><span class="label">最高分</span><span id="high-score">0</span></div>
+      <div class="score-board"><span class="label">关卡</span><span id="level">1</span></div>
+      <div class="score-board"><span class="label">生命</span><span id="lives">3</span></div>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="game"></canvas>
+      <div id="overlay" class="overlay">
+        <p id="overlay-title">打砖块</p>
+        <p id="overlay-sub">按空格 / 点击开始</p>
+      </div>
+    </div>
+    <div class="controls">← → 移动挡板 &nbsp;|&nbsp; 空格 发球 &nbsp;|&nbsp; P 暂停</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

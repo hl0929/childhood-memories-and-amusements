@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 小游戏合集</title>
+  <style>
+    :root {
+      --bg: #0f0c29;
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.1);
+      --accent: #00ff88;
+      --text: #fff;
+      --text-dim: rgba(255,255,255,0.5);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      min-height:100vh;
+      background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+      font-family:'Segoe UI','Microsoft YaHei',sans-serif;
+      color:var(--text);
+      display:flex; flex-direction:column; align-items:center;
+      padding:40px 20px;
+    }
+    header { text-align:center; margin-bottom:48px; }
+    header h1 { font-size:2.8rem; letter-spacing:6px; text-shadow:0 0 24px rgba(0,255,136,.5); }
+    header p  { margin-top:8px; color:var(--text-dim); font-size:1rem; }
+
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+      gap:24px;
+      width:100%; max-width:900px;
+    }
+    .card {
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius:16px;
+      padding:28px 24px 24px;
+      text-decoration:none;
+      color:inherit;
+      transition:transform .2s, box-shadow .2s, border-color .2s;
+      cursor:pointer;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .card:hover {
+      transform:translateY(-6px);
+      border-color:var(--accent);
+      box-shadow:0 0 32px rgba(0,255,136,.2);
+    }
+    .card .icon { font-size:2.8rem; }
+    .card .name { font-size:1.25rem; font-weight:700; }
+    .card .desc { font-size:.85rem; color:var(--text-dim); line-height:1.6; }
+    .card .tag  {
+      margin-top:4px;
+      display:inline-block;
+      font-size:.7rem;
+      padding:2px 10px;
+      border-radius:20px;
+      background:rgba(0,255,136,.12);
+      color:var(--accent);
+      border:1px solid rgba(0,255,136,.25);
+      width:fit-content;
+    }
+
+    footer {
+      margin-top:56px;
+      color:var(--text-dim);
+      font-size:.8rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎮 小游戏合集</h1>
+    <p>7 款经典小游戏，纯原生 HTML / CSS / JS，零依赖</p>
+  </header>
+
+  <div class="grid">
+    <a class="card" href="snake/index.html">
+      <span class="icon">🐍</span>
+      <span class="name">贪吃蛇</span>
+      <span class="desc">控制蛇吃食物成长，碰墙或咬到自身即结束。支持金色食物和粒子特效。</span>
+      <span class="tag">方向键 / WASD</span>
+    </a>
+    <a class="card" href="tetris/index.html">
+      <span class="icon">🟦</span>
+      <span class="name">俄罗斯方块</span>
+      <span class="desc">经典 Tetris，7 种方块自由旋转，消行得分，速度随分数提升。</span>
+      <span class="tag">方向键 / 空格</span>
+    </a>
+    <a class="card" href="breakout/index.html">
+      <span class="icon">🧱</span>
+      <span class="name">打砖块</span>
+      <span class="desc">控制挡板弹球，击碎所有砖块。砖块颜色越深分值越高。</span>
+      <span class="tag">鼠标 / 方向键</span>
+    </a>
+    <a class="card" href="game2048/index.html">
+      <span class="icon">🔢</span>
+      <span class="name">2048</span>
+      <span class="desc">滑动合并相同数字方块，拼出 2048 即为胜利。</span>
+      <span class="tag">方向键 / 滑动</span>
+    </a>
+    <a class="card" href="memory/index.html">
+      <span class="icon">🃏</span>
+      <span class="name">记忆翻牌</span>
+      <span class="desc">翻开两张相同图案的卡牌即可消除，用最少步数清空全部卡牌。</span>
+      <span class="tag">鼠标点击</span>
+    </a>
+    <a class="card" href="whack/index.html">
+      <span class="icon">🔨</span>
+      <span class="name">打地鼠</span>
+      <span class="desc">地鼠随机弹出，快速点击消灭它们。30 秒内尽可能多地得分。</span>
+      <span class="tag">鼠标点击</span>
+    </a>
+    <a class="card" href="match3/index.html">
+      <span class="icon">💎</span>
+      <span class="name">消消乐</span>
+      <span class="desc">交换相邻宝石消除 3+ 个同色，30 步内达到目标分数。支持连锁消除。</span>
+      <span class="tag">鼠标点击</span>
+    </a>
+  </div>
+
+  <footer>纯原生实现 · 无框架 · 无外部依赖</footer>
+</body>
+</html>
