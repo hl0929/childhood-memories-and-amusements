@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>五子棋</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🔴 五子棋</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">⚫ 黑棋</span><span id="black-info">先手</span></div>
+      <div class="score-board"><span class="label">⚪ 白棋</span><span id="white-info">后手</span></div>
+      <div class="score-board"><span class="label">当前</span><span id="current-turn">⚫</span></div>
+    </div>
+    <div class="mode-row">
+      <button id="mode-ai" class="game-btn active">vs AI</button>
+      <button id="mode-2p" class="game-btn">双人</button>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="board"></canvas>
+    </div>
+    <div class="btn-row">
+      <button id="restart-btn" class="game-btn">🔄 新局</button>
+    </div>
+    <div class="controls">点击/触摸落子 &nbsp;|&nbsp; 横竖斜连五即胜</div>
+    <div id="msg" class="msg hidden">
+      <div class="msg-box">
+        <p id="msg-title"></p>
+        <p id="msg-sub"></p>
+        <button onclick="initGame()">再来一局</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

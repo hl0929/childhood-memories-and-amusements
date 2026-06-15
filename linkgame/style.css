@@ -1,0 +1,137 @@
+:root {
+  --accent: #e040fb;
+  --accent-glow: rgba(224,64,251,0.4);
+  --panel: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  font-family:'Segoe UI','Microsoft YaHei',sans-serif;
+  color:#fff; overflow-x:hidden; overflow-y:auto;
+}
+.container { display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px; width:100%; max-width:700px; }
+.back { align-self:flex-start; color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; }
+.back:hover { color:var(--accent); }
+h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
+.game-info { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.score-board {
+  display:flex; flex-direction:column; align-items:center;
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:10px; padding:5px 14px; min-width:70px;
+}
+.score-board .label { font-size:.65rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.4); }
+.score-board span:last-child { font-size:1.2rem; font-weight:700; color:var(--accent); }
+
+.btn-row { display:flex; gap:8px; }
+.game-btn {
+  padding:5px 14px; border-radius:20px; border:1px solid var(--border);
+  background:var(--panel); color:rgba(255,255,255,.7); cursor:pointer; font-size:.8rem;
+  transition:all .2s;
+}
+.game-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* 棋盘容器 */
+.board-wrap { position:relative; }
+.board {
+  display:grid;
+  gap:3px;
+  padding:6px;
+  background:rgba(0,0,0,.3);
+  border:2px solid var(--border);
+  border-radius:12px;
+  box-shadow:0 0 30px var(--accent-glow);
+}
+.tile {
+  aspect-ratio: 1;
+  border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:clamp(1rem,3.5vw,1.5rem);
+  background:rgba(255,255,255,0.06);
+  cursor:pointer;
+  transition:transform .12s, box-shadow .12s;
+  user-select:none;
+}
+.tile:hover { transform:scale(1.05); }
+.tile.selected {
+  box-shadow:0 0 0 2px #fff, 0 0 12px var(--accent);
+  transform:scale(1.08);
+}
+.tile.removing {
+  animation:tilePop .25s ease-out forwards;
+}
+@keyframes tilePop {
+  0%   { transform:scale(1.1); opacity:1; }
+  100% { transform:scale(0);   opacity:0; }
+}
+.tile.hint {
+  animation:hintPulse .5s ease-in-out 3;
+}
+@keyframes hintPulse {
+  0%,100% { box-shadow:none; }
+  50%     { box-shadow:0 0 0 2px #ffd700, 0 0 16px rgba(255,215,0,.6); }
+}
+
+/* 连线SVG */
+.line-svg {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:10;
+}
+.line-svg line {
+  stroke:var(--accent);
+  stroke-width:3;
+  stroke-linecap:round;
+  filter:drop-shadow(0 0 6px var(--accent-glow));
+  animation:lineFade .6s ease-out forwards;
+}
+@keyframes lineFade {
+  0%   { opacity:1; }
+  70%  { opacity:1; }
+  100% { opacity:0; }
+}
+
+.controls { font-size:.75rem; color:rgba(255,255,255,.35); text-align:center; }
+
+/* 弹窗 */
+.msg {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.7); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+}
+.msg.hidden { display:none; }
+.msg-box {
+  background:#1a1a2e;
+  border:2px solid var(--accent); border-radius:16px;
+  padding:32px 48px; text-align:center;
+  display:flex; flex-direction:column; gap:14px;
+  box-shadow:0 0 30px var(--accent-glow);
+}
+#msg-title { font-size:2rem; font-weight:700; }
+#msg-sub   { color:rgba(255,255,255,.7); }
+.msg-box button {
+  padding:8px 24px; border-radius:20px; border:none;
+  background:var(--accent); color:#fff; font-weight:700; cursor:pointer; font-size:1rem;
+}
+
+/* 平板适配 */
+@media (max-width: 768px) {
+  .container { padding:16px; gap:10px; }
+  .score-board { padding:4px 12px; min-width:60px; }
+}
+
+/* 手机适配 */
+@media (max-width: 480px) {
+  .container { padding:12px; gap:8px; }
+  .game-info { gap:8px; }
+  .score-board { padding:3px 8px; min-width:55px; }
+  .score-board .label { font-size:.55rem; }
+  .score-board span:last-child { font-size:1rem; }
+  .game-btn { padding:4px 10px; font-size:.7rem; }
+  .board { gap:2px; padding:4px; }
+  .tile { font-size:clamp(.8rem,3vw,1.2rem); }
+  .controls { font-size:.65rem; }
+}

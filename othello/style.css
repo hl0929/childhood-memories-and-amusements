@@ -1,0 +1,127 @@
+:root {
+  --accent: #78909c;
+  --accent-glow: rgba(120,144,156,0.4);
+  --panel: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.1);
+  --board-bg: #1b5e20;
+  --cell-bg: #2e7d32;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  font-family:'Segoe UI','Microsoft YaHei',sans-serif;
+  color:#fff; overflow-x:hidden; overflow-y:auto;
+}
+.container { display:flex; flex-direction:column; align-items:center; gap:12px; padding:20px; width:100%; max-width:600px; }
+.back { align-self:flex-start; color:rgba(255,255,255,.5); text-decoration:none; font-size:.85rem; transition:color .2s; }
+.back:hover { color:var(--accent); }
+h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16px var(--accent-glow); }
+.game-info { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+.score-board {
+  display:flex; flex-direction:column; align-items:center;
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:10px; padding:5px 16px; min-width:72px;
+}
+.score-board .label { font-size:.65rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.4); }
+.score-board span:last-child { font-size:1.2rem; font-weight:700; color:var(--accent); }
+
+.mode-row { display:flex; gap:8px; }
+.game-btn {
+  padding:5px 16px; border-radius:20px; border:1px solid var(--border);
+  background:var(--panel); color:rgba(255,255,255,.6); cursor:pointer; font-size:.85rem;
+  transition:all .2s;
+}
+.game-btn.active, .game-btn:hover { background:var(--accent); color:#111; border-color:var(--accent); }
+
+/* 棋盘 */
+.board {
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:2px;
+  padding:6px;
+  background:var(--board-bg);
+  border:3px solid rgba(255,255,255,.15);
+  border-radius:8px;
+  box-shadow:0 0 30px rgba(27,94,32,.4);
+  width: min(100%, calc(8 * var(--cell, 48px) + 7 * 2px + 12px));
+}
+.board { --cell: clamp(36px, calc((100vw - 80px) / 8), 48px); }
+
+.cell {
+  width: var(--cell);
+  height: var(--cell);
+  background:var(--cell-bg);
+  border-radius:3px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:background .1s;
+  position:relative;
+}
+.cell:hover { background:#388e3c; }
+.cell.valid { background:#43a047; }
+
+/* 棋子 */
+.piece {
+  width:80%; height:80%;
+  border-radius:50%;
+  position:absolute;
+  transition:transform .3s ease;
+}
+.piece.black {
+  background:radial-gradient(circle at 35% 35%, #555, #111);
+  box-shadow:2px 2px 4px rgba(0,0,0,.6);
+}
+.piece.white {
+  background:radial-gradient(circle at 35% 35%, #fff, #ccc);
+  box-shadow:2px 2px 4px rgba(0,0,0,.3);
+}
+.piece.flipping {
+  animation:flip .3s ease-in-out;
+}
+@keyframes flip {
+  0%   { transform:scaleX(1); }
+  50%  { transform:scaleX(0); }
+  100% { transform:scaleX(1); }
+}
+
+.btn-row { display:flex; gap:8px; }
+.controls { font-size:.75rem; color:rgba(255,255,255,.35); text-align:center; }
+
+/* 弹窗 */
+.msg {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.7); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+}
+.msg.hidden { display:none; }
+.msg-box {
+  background:#1a1a2e;
+  border:2px solid var(--accent); border-radius:16px;
+  padding:32px 48px; text-align:center;
+  display:flex; flex-direction:column; gap:14px;
+  box-shadow:0 0 30px var(--accent-glow);
+}
+#msg-title { font-size:2rem; font-weight:700; }
+#msg-sub   { color:rgba(255,255,255,.7); }
+.msg-box button {
+  padding:8px 24px; border-radius:20px; border:none;
+  background:var(--accent); color:#111; font-weight:700; cursor:pointer; font-size:1rem;
+}
+
+/* 平板适配 */
+@media (max-width: 768px) {
+  .container { padding:16px; gap:10px; }
+}
+
+/* 手机适配 */
+@media (max-width: 480px) {
+  .container { padding:12px; gap:8px; }
+  .game-info { gap:8px; }
+  .score-board { padding:3px 8px; min-width:55px; }
+  .score-board .label { font-size:.55rem; }
+  .score-board span:last-child { font-size:1rem; }
+  .game-btn { padding:4px 10px; font-size:.75rem; }
+  .controls { font-size:.65rem; }
+}

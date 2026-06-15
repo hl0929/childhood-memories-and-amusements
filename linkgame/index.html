@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>连连看</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🀄 连连看</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">得分</span><span id="score">0</span></div>
+      <div class="score-board"><span class="label">剩余</span><span id="remaining">0</span></div>
+      <div class="score-board"><span class="label">用时</span><span id="timer">0s</span></div>
+    </div>
+    <div class="btn-row">
+      <button id="hint-btn" class="game-btn">💡 提示</button>
+      <button id="shuffle-btn" class="game-btn">🔀 打乱</button>
+      <button id="restart-btn" class="game-btn">🔄 重开</button>
+    </div>
+    <div class="board-wrap">
+      <div id="board" class="board"></div>
+      <svg id="line-svg" class="line-svg"></svg>
+    </div>
+    <div class="controls">点击两个相同图案，路径 ≤ 2 弯即可消除</div>
+    <div id="msg" class="msg hidden">
+      <div class="msg-box">
+        <p id="msg-title"></p>
+        <p id="msg-sub"></p>
+        <button onclick="initGame()">再来一局</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

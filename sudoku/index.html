@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数独</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🔢 数独</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">用时</span><span id="timer">0s</span></div>
+      <div class="score-board"><span class="label">错误</span><span id="errors">0</span></div>
+    </div>
+    <div class="difficulty">
+      <button class="diff-btn active" data-diff="easy">简单</button>
+      <button class="diff-btn" data-diff="medium">中等</button>
+      <button class="diff-btn" data-diff="hard">困难</button>
+    </div>
+    <div id="board" class="board"></div>
+    <div class="numpad" id="numpad"></div>
+    <div class="btn-row">
+      <button id="erase-btn" class="game-btn">✕ 擦除</button>
+      <button id="note-btn" class="game-btn">✏ 笔记</button>
+      <button id="restart-btn" class="game-btn">🔄 新局</button>
+    </div>
+    <div id="msg" class="msg hidden">
+      <div class="msg-box">
+        <p id="msg-title"></p>
+        <p id="msg-sub"></p>
+        <button onclick="initGame()">新游戏</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

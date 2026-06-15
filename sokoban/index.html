@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>推箱子</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>📦 推箱子</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">步数</span><span id="steps">0</span></div>
+      <div class="score-board"><span class="label">关卡</span><span id="level">1</span></div>
+    </div>
+    <div id="board" class="board"></div>
+    <div class="btn-row">
+      <button id="undo-btn" class="game-btn">↩ 撤销</button>
+      <button id="reset-btn" class="game-btn">🔄 重置</button>
+    </div>
+    <div class="controls">方向键 / WASD 移动 &nbsp;|&nbsp; Z 撤销 &nbsp;|&nbsp; R 重置</div>
+    <div id="msg" class="msg hidden">
+      <div class="msg-box">
+        <p id="msg-title"></p>
+        <p id="msg-sub"></p>
+        <button id="next-btn">下一关</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

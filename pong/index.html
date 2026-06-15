@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>乒乓球</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🏓 乒乓球</h1>
+    <div class="game-info">
+      <div class="score-board"><span class="label">左方</span><span id="p1-score">0</span></div>
+      <div class="score-board"><span class="label">右方</span><span id="p2-score">0</span></div>
+    </div>
+    <div class="mode-row">
+      <button id="mode-ai" class="game-btn active">vs AI</button>
+      <button id="mode-2p" class="game-btn">双人</button>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas id="game"></canvas>
+    </div>
+    <div class="controls">W/S 左方 &nbsp;|&nbsp; ↑/↓ 右方 &nbsp;|&nbsp; 空格 开始 &nbsp;|&nbsp; P 暂停</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
