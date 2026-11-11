@@ -22,19 +22,21 @@ function addRandom(g) {
   g[r][c] = Math.random() < 0.9 ? 2 : 4;
 }
 
-// 向左滑动一行，返回 {row, gained}
+// 向左滑动一行，返回 {row, gained, merges}
 function slideRow(row) {
   const nums = row.filter(v => v);
   let gained = 0;
+  const merges = [];
   for (let i = 0; i < nums.length - 1; i++) {
     if (nums[i] === nums[i+1]) {
       nums[i] *= 2;
       gained += nums[i];
+      merges.push(nums[i]);
       nums.splice(i+1, 1);
     }
   }
   while (nums.length < SIZE) nums.push(0);
-  return { row: nums, gained };
+  return { row: nums, gained, merges };
 }
 
 function move(dir) {
@@ -42,11 +44,13 @@ function move(dir) {
   let rotated = rotateGrid(grid, dir);
   let changed = false;
   let gainedTotal = 0;
+  let merges = [];
   for (let r = 0; r < SIZE; r++) {
     const orig = [...rotated[r]];
-    const { row, gained } = slideRow(rotated[r]);
+    const { row, gained, merges: rowMerges } = slideRow(rotated[r]);
     rotated[r] = row;
     gainedTotal += gained;
+    merges = merges.concat(rowMerges);
     if (row.some((v,i) => v !== orig[i])) changed = true;
   }
   if (!changed) return false;
@@ -57,6 +61,12 @@ function move(dir) {
     highScore = score;
     highEl.textContent = highScore;
     localStorage.setItem('g2048_high', highScore);
+  }
+  // 合并音高随数字增大而升高；普通移动则是轻点声
+  if (merges.length) {
+    SFX.play('merge', { value: Math.max(...merges) });
+  } else {
+    SFX.play('move');
   }
   addRandom(grid);
   return true;
@@ -111,9 +121,11 @@ function render(newTiles = new Set()) {
   // 胜负检测
   if (!won && grid.some(row => row.includes(2048))) {
     won = true;
+    SFX.play('win');
     showMsg('🎉 达成 2048！', '继续挑战？');
   } else if (!hasMove()) {
     over = true;
+    SFX.play('gameover');
     showMsg('😢 无路可走', '再来一局');
   }
 }
@@ -145,7 +157,7 @@ const dirMap = {
   A:'left', D:'right', W:'up', S:'down',
 };
 document.addEventListener('keydown', e => {
-  if (e.key.toLowerCase() === 'r') { init(); return; }
+  if (e.key.toLowerCase() === 'r') { SFX.play('start'); init(); return; }
   const dir = dirMap[e.key];
   if (!dir || over) return;
   e.preventDefault();

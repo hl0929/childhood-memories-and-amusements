@@ -214,7 +214,10 @@ function move(dr, dc) {
   const nc = playerC + dc;
 
   // 撞墙
-  if (nr < 0 || nr >= rows || nc < 0 || nc >= cols || map[nr][nc] === 1 || map[nr][nc] === 0) return;
+  if (nr < 0 || nr >= rows || nc < 0 || nc >= cols || map[nr][nc] === 1 || map[nr][nc] === 0) {
+    SFX.play('click', { throttle: 160 });
+    return;
+  }
 
   const boxes = boardEl._boxes;
   const boxIdx = boxes.findIndex(([br, bc]) => br === nr && bc === nc);
@@ -223,8 +226,14 @@ function move(dr, dc) {
     // 推箱子：检查箱子后方
     const bnr = nr + dr;
     const bnc = nc + dc;
-    if (bnr < 0 || bnr >= rows || bnc < 0 || bnc >= cols || map[bnr][bnc] === 1 || map[bnr][bnc] === 0) return;
-    if (boxes.some(([br, bc]) => br === bnr && bc === bnc)) return; // 后方有箱子
+    if (bnr < 0 || bnr >= rows || bnc < 0 || bnc >= cols || map[bnr][bnc] === 1 || map[bnr][bnc] === 0) {
+      SFX.play('click', { throttle: 160 });
+      return;
+    }
+    if (boxes.some(([br, bc]) => br === bnr && bc === bnc)) {
+      SFX.play('click', { throttle: 160 });
+      return; // 后方有箱子
+    }
 
     // 保存历史
     history.push({ pr: playerR, pc: playerC, boxes: boxes.map(b => [...b]), steps });
@@ -233,11 +242,14 @@ function move(dr, dc) {
     boxes[boxIdx] = [bnr, bnc];
     playerR = nr;
     playerC = nc;
+    const onTarget = boardEl._targets.some(([tr, tc]) => tr === bnr && tc === bnc);
+    SFX.play(onTarget ? 'match' : 'push');
   } else {
     // 空地移动
     history.push({ pr: playerR, pc: playerC, boxes: boxes.map(b => [...b]), steps });
     playerR = nr;
     playerC = nc;
+    SFX.play('step');
   }
 
   steps++;
@@ -248,13 +260,14 @@ function move(dr, dc) {
 
 // ==================== 撤销 ====================
 function undo() {
-  if (!history.length) return;
+  if (!history.length) { SFX.play('click'); return; }
   const state = history.pop();
   playerR = state.pr;
   playerC = state.pc;
   boardEl._boxes = state.boxes;
   steps = state.steps;
   stepsEl.textContent = steps;
+  SFX.play('undo');
   render();
 }
 
@@ -264,6 +277,7 @@ function checkWin() {
   const targets = boardEl._targets;
   const allOnTarget = targets.every(([tr, tc]) => boxes.some(([br, bc]) => br === tr && bc === tc));
   if (allOnTarget) {
+    SFX.play('win');
     msgTitle.textContent = '🎉 通关！';
     msgSub.textContent = `${steps} 步完成`;
     nextBtn.textContent = currentLevel < LEVELS.length - 1 ? '下一关' : '从第一关重新开始';
@@ -280,7 +294,7 @@ document.addEventListener('keydown', e => {
     case 'ArrowLeft':  case 'a': case 'A': e.preventDefault(); move(0, -1); break;
     case 'ArrowRight': case 'd': case 'D': e.preventDefault(); move(0, 1);  break;
     case 'z': case 'Z': undo(); break;
-    case 'r': case 'R': loadLevel(currentLevel); break;
+    case 'r': case 'R': SFX.play('start'); loadLevel(currentLevel); break;
   }
 });
 
@@ -301,8 +315,8 @@ boardEl.addEventListener('touchend', e => {
 
 // 按钮
 undoBtn.addEventListener('click', undo);
-resetBtn.addEventListener('click', () => loadLevel(currentLevel));
-nextBtn.addEventListener('click', () => loadLevel(currentLevel + 1));
+resetBtn.addEventListener('click', () => { SFX.play('start'); loadLevel(currentLevel); });
+nextBtn.addEventListener('click', () => { SFX.play('start'); loadLevel(currentLevel + 1); });
 
 // ==================== 启动 ====================
 loadLevel(0);

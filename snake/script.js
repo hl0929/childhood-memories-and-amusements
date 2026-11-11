@@ -61,31 +61,10 @@ const DIR = {
   RIGHT: { x:  1, y:  0 },
 };
 
-// ==================== 音效 (Web Audio API) ====================
-let audioCtx;
-function ensureAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-}
-
-function playTone(freq, duration, type = 'square', vol = 0.12) {
-  try {
-    ensureAudio();
-    const osc  = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
-  } catch (_) { /* 静默失败 */ }
-}
-
-function sfxEat()   { playTone(660, 0.1, 'sine', 0.1); setTimeout(() => playTone(880, 0.12, 'sine', 0.08), 60); }
-function sfxGold()  { playTone(880, 0.08, 'sine', 0.12); setTimeout(() => playTone(1100, 0.08, 'sine', 0.1), 50); setTimeout(() => playTone(1320, 0.15, 'sine', 0.08), 100); }
-function sfxDie()   { playTone(220, 0.3, 'sawtooth', 0.12); setTimeout(() => playTone(150, 0.4, 'sawtooth', 0.08), 150); }
+// ==================== 音效（由根目录 sound.js 统一合成） ====================
+function sfxEat()  { SFX.play('eat'); }
+function sfxGold() { SFX.play('gold'); }
+function sfxDie()  { SFX.play('die'); }
 
 // ==================== 粒子系统 ====================
 let particles = [];
@@ -278,6 +257,7 @@ function update() {
       level++;
       interval = Math.max(50, BASE_MS - (level - 1) * SPEED_MS);
       speedEl.textContent = level;
+      SFX.play('levelup');
     }
 
     // 最高分
@@ -514,6 +494,7 @@ function tryStart() {
     gameState = 'running';
     hideOverlay();
     lastTime = null;
+    SFX.play('start');
     animFrame = requestAnimationFrame(loop);
   }
 }
@@ -528,15 +509,18 @@ document.addEventListener('keydown', (e) => {
     case 'p': case 'P':
       if (gameState === 'running') {
         gameState = 'paused';
+        SFX.play('click');
         showOverlay('已暂停', '按 P 继续');
       } else if (gameState === 'paused') {
         gameState = 'running';
+        SFX.play('click');
         hideOverlay();
         lastTime = null;
         animFrame = requestAnimationFrame(loop);
       }
       break;
     case 'r': case 'R':
+      SFX.play('start');
       init();
       break;
   }

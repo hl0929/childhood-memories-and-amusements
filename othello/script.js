@@ -21,10 +21,10 @@ vsAI = true;
 
 // ==================== 模式切换 ====================
 modeAi.addEventListener('click', () => {
-  vsAI = true; modeAi.classList.add('active'); mode2p.classList.remove('active'); initGame();
+  vsAI = true; modeAi.classList.add('active'); mode2p.classList.remove('active'); SFX.play('click'); initGame();
 });
 mode2p.addEventListener('click', () => {
-  vsAI = false; mode2p.classList.add('active'); modeAi.classList.remove('active'); initGame();
+  vsAI = false; mode2p.classList.add('active'); modeAi.classList.remove('active'); SFX.play('click'); initGame();
 });
 
 // ==================== 初始化 ====================
@@ -77,6 +77,14 @@ function makeMove(r, c, player) {
   return flips;
 }
 
+// 落子 + 翻转音效
+function playMoveSound(flips) {
+  SFX.play('place');
+  if (flips && flips.length) {
+    setTimeout(() => SFX.play('capture'), 70);
+  }
+}
+
 // ==================== 渲染 ====================
 function render() {
   boardEl.innerHTML = '';
@@ -125,8 +133,9 @@ function onCellClick(r, c) {
   if (vsAI && currentTurn === WHITE) return; // AI回合不允许点击
 
   const flips = makeMove(r, c, currentTurn);
-  if (!flips) return;
+  if (!flips) { SFX.play('invalid', { throttle: 150 }); return; }
 
+  playMoveSound(flips);
   renderWithFlip(flips);
   nextTurn();
 }
@@ -139,6 +148,7 @@ function nextTurn() {
   // 检查当前玩家是否有合法走法
   if (getValidMoves(currentTurn).length === 0) {
     // 跳过
+    SFX.play('pass');
     currentTurn = currentTurn === BLACK ? WHITE : BLACK;
     if (getValidMoves(currentTurn).length === 0) {
       // 双方都无法走 → 游戏结束
@@ -157,6 +167,7 @@ function nextTurn() {
       const move = aiMove();
       if (move) {
         const flips = makeMove(move[0], move[1], WHITE);
+        playMoveSound(flips);
         renderWithFlip(flips || []);
       }
       aiThinking = false;
@@ -223,12 +234,13 @@ function endGame() {
       if (grid[r][c] === WHITE) w++;
     }
   const winner = b > w ? '⚫ 黑棋' : w > b ? '⚪ 白棋' : '平局';
+  SFX.play(b === w ? 'gameover' : 'win');
   msgTitle.textContent = b > w || w > b ? `🎉 ${winner}获胜！` : '🤝 平局！';
   msgSub.textContent = `⚫ ${b}  vs  ⚪ ${w}`;
   setTimeout(() => msgEl.classList.remove('hidden'), 300);
 }
 
-restartBtn.addEventListener('click', initGame);
+restartBtn.addEventListener('click', () => { SFX.play('start'); initGame(); });
 
 // ==================== 启动 ====================
 initGame();

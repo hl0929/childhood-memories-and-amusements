@@ -125,9 +125,9 @@ function update() {
   ball.y += ball.vy;
 
   // 墙反弹
-  if (ball.x - BALL_R < 0)  { ball.x = BALL_R;  ball.vx = Math.abs(ball.vx); }
-  if (ball.x + BALL_R > W)  { ball.x = W-BALL_R; ball.vx = -Math.abs(ball.vx); }
-  if (ball.y - BALL_R < 0)  { ball.y = BALL_R;   ball.vy = Math.abs(ball.vy); }
+  if (ball.x - BALL_R < 0)  { ball.x = BALL_R;  ball.vx = Math.abs(ball.vx); SFX.play('bounce'); }
+  if (ball.x + BALL_R > W)  { ball.x = W-BALL_R; ball.vx = -Math.abs(ball.vx); SFX.play('bounce'); }
+  if (ball.y - BALL_R < 0)  { ball.y = BALL_R;   ball.vy = Math.abs(ball.vy); SFX.play('bounce'); }
 
   // 挡板碰撞
   if (ball.vy > 0 &&
@@ -140,6 +140,7 @@ function update() {
     ball.vx = rel * speed;
     ball.vy = -Math.sqrt(speed*speed - ball.vx*ball.vx);
     ball.y = pad.y - BALL_R;
+    SFX.play('paddle');
   }
 
   // 砖块碰撞
@@ -152,6 +153,7 @@ function update() {
     spawnParticles(ball.x, ball.y, b.color);
     if (b.hp <= 0) {
       b.alive = false;
+      SFX.play('break');
       const pts = (b.maxHp > 1 ? 20 : 10) * level;
       score += pts;
       scoreEl.textContent = score;
@@ -160,6 +162,8 @@ function update() {
         highEl.textContent = highScore;
         localStorage.setItem('breakout_high', highScore);
       }
+    } else {
+      SFX.play('brick');
     }
 
     // 反弹方向（从哪个面撞入）
@@ -178,6 +182,7 @@ function update() {
   if (bricks.every(b => !b.alive)) {
     level++;
     levelEl.textContent = level;
+    SFX.play('levelup');
     buildBricks();
     resetBall();
     return;
@@ -189,10 +194,12 @@ function update() {
     livesEl.textContent = lives;
     if (lives <= 0) {
       running = false;
+      SFX.play('gameover');
       ovTitle.textContent = '游戏结束';
       ovSub.textContent   = `得分 ${score}  —  按 R 重玩`;
       overlay.classList.remove('hidden');
     } else {
+      SFX.play('damage');
       resetBall();
     }
   }
@@ -272,12 +279,14 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
     if (!running) { init(); return; }
     if (paused) return;
+    if (!launched) SFX.play('start');
     launched = true;
   }
-  if (e.key.toLowerCase() === 'r') { init(); return; }
+  if (e.key.toLowerCase() === 'r') { SFX.play('start'); init(); return; }
   if (e.key.toLowerCase() === 'p') {
     if (!running) return;
     paused = !paused;
+    SFX.play('click');
     if (paused) {
       ovTitle.textContent = '暂停';
       ovSub.textContent   = '按 P 继续';
@@ -301,11 +310,13 @@ canvas.addEventListener('mousemove', e => {
 });
 canvas.addEventListener('click', () => {
   if (!running) { init(); return; }
+  if (!launched) SFX.play('start');
   launched = true;
 });
 let touchX = 0;
 canvas.addEventListener('touchstart', e => {
   touchX = e.touches[0].clientX;
+  if (!launched) SFX.play('start');
   launched = true;
   e.preventDefault();
 }, {passive:false});

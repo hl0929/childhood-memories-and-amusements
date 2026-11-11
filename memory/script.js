@@ -29,10 +29,11 @@ diffBtns.forEach(btn => {
     btn.classList.add('active');
     cols = Number(btn.dataset.cols);
     rows = Number(btn.dataset.rows);
+    SFX.play('start');
     startGame();
   });
 });
-restartBtn.addEventListener('click', startGame);
+restartBtn.addEventListener('click', () => { SFX.play('start'); startGame(); });
 
 // ==================== 计时 ====================
 function startTimer() {
@@ -95,6 +96,7 @@ function onCardClick(card, el) {
   if (blocked || card.flipped || card.matched) return;
   card.flipped = true;
   el.classList.add('flipped');
+  SFX.play('flip');
   flipped.push(card);
   flips++;
   flipsEl.textContent = flips;
@@ -104,6 +106,7 @@ function onCardClick(card, el) {
     const [a, b] = flipped;
     if (a.emoji === b.emoji) {
       // 匹配成功
+      SFX.play('match', { level: matchCount });
       setTimeout(() => {
         a.el.classList.add('matched');
         b.el.classList.add('matched');
@@ -116,6 +119,7 @@ function onCardClick(card, el) {
       }, 400);
     } else {
       // 不匹配，翻回
+      SFX.play('mismatch');
       setTimeout(() => {
         a.flipped = b.flipped = false;
         a.el.classList.remove('flipped');
@@ -130,6 +134,7 @@ function onCardClick(card, el) {
 // ==================== 胜利 ====================
 function onWin() {
   stopTimer();
+  SFX.play('win');
   const elapsed = Math.floor((Date.now() - startTime) / 1000);
   const bestKey = `mem_best_${cols}x${rows}`;
   const prev = Number(localStorage.getItem(bestKey) || Infinity);

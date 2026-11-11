@@ -156,6 +156,7 @@ function onGemClick(r, c) {
 
   if (!selected) {
     selected = [r, c];
+    SFX.play('select');
     render();
     return;
   }
@@ -165,6 +166,7 @@ function onGemClick(r, c) {
 
   // 再次点击同一格 → 取消选中
   if (sr === r && sc === c) {
+    SFX.play('click');
     render();
     return;
   }
@@ -173,6 +175,7 @@ function onGemClick(r, c) {
   const adjacent = Math.abs(sr - r) + Math.abs(sc - c) === 1;
   if (!adjacent) {
     selected = [r, c];
+    SFX.play('select');
     render();
     return;
   }
@@ -228,6 +231,7 @@ async function trySwap(r1, c1, r2, c2) {
   if (!matches.length) {
     // 无效：换回并抖动
     [grid[r1][c1], grid[r2][c2]] = [grid[r2][c2], grid[r1][c1]];
+    SFX.play('invalid');
     render();
     // 短暂高亮两个格子表示无效
     [gemEl(r1,c1), gemEl(r2,c2)].forEach(el => {
@@ -240,6 +244,7 @@ async function trySwap(r1, c1, r2, c2) {
   // 消耗步数
   movesLeft--;
   movesEl.textContent = movesLeft;
+  SFX.play('swap');
 
   await resolveMatches(0);
 
@@ -265,6 +270,10 @@ async function resolveMatches(chain) {
 
   // 显示连锁提示
   if (chain >= 1) showChainPop(chain + 1);
+
+  // 消除音效：连锁时音调升高
+  if (chain >= 1) SFX.play('combo', { level: chain });
+  else            SFX.play('match');
 
   // 播放消除动画
   matches.forEach(([r, c]) => {
@@ -324,22 +333,26 @@ function showChainPop(n) {
 function checkEnd() {
   if (score >= target) {
     gameOver = true;
+    SFX.play('win');
     setTimeout(() => showMsg('🎉 胜利！', `得分 ${score}，剩余步数 ${movesLeft}`), 300);
     return;
   }
   if (movesLeft <= 0) {
     gameOver = true;
+    SFX.play('lose');
     setTimeout(() => showMsg('😢 步数用尽', `还差 ${Math.max(0, target - score)} 分达到目标`), 300);
     return;
   }
   if (!hasAnyMove()) {
     gameOver = true;
+    SFX.play('shuffle');
     setTimeout(() => showMsg('😢 无路可走', '棋盘已无可用步骤，自动洗牌…'), 300);
     // 洗牌而不是直接结束
     setTimeout(() => {
       gameOver = false;
       buildGrid();
       render();
+      SFX.play('start');
     }, 2000);
   }
 }

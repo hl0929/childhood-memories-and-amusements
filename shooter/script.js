@@ -100,6 +100,7 @@ function update() {
   if ((keys[' '] || touchActive) && shootCooldown <= 0) {
     bullets.push({ x: player.x + player.w / 2 - BULLET_W / 2, y: player.y - BULLET_H, w: BULLET_W, h: BULLET_H, vy: -8 });
     shootCooldown = 8;
+    SFX.play('shoot');
   }
 
   // 子弹移动
@@ -133,6 +134,7 @@ function update() {
       lives--;
       livesEl.textContent = lives;
       if (lives <= 0) return endGame();
+      SFX.play('damage');
     }
   }
 
@@ -150,9 +152,12 @@ function update() {
           scoreEl.textContent = score;
           if (score > highScore) { highScore = score; highEl.textContent = highScore; localStorage.setItem('shooter_high', highScore); }
           spawnParticles(enemies[ei].x + enemies[ei].w / 2, enemies[ei].y + enemies[ei].h / 2, '#ffd700', 10);
+          SFX.play('explode');
           enemies.splice(ei, 1);
           // 波次升级
-          if (score >= wave * 200) { wave++; waveEl.textContent = wave; spawnInterval = Math.max(15, 60 - wave * 5); }
+          if (score >= wave * 200) { wave++; waveEl.textContent = wave; spawnInterval = Math.max(15, 60 - wave * 5); SFX.play('levelup'); }
+        } else {
+          SFX.play('hit');
         }
         break;
       }
@@ -168,6 +173,7 @@ function rectCollide(a, b) {
 
 function endGame() {
   running = false;
+  SFX.play('gameover');
   ovTitle.textContent = '游戏结束';
   ovSub.textContent = `得分 ${score}  —  按 R 重玩`;
   overlay.classList.remove('hidden');
@@ -246,10 +252,11 @@ function draw() {
 const keys = {};
 document.addEventListener('keydown', e => {
   keys[e.key] = true;
-  if (e.key === ' ') { e.preventDefault(); if (!running) { init(); return; } }
-  if (e.key.toLowerCase() === 'r') { init(); return; }
+  if (e.key === ' ') { e.preventDefault(); if (!running) { SFX.play('start'); init(); return; } }
+  if (e.key.toLowerCase() === 'r') { SFX.play('start'); init(); return; }
   if (e.key.toLowerCase() === 'p' && running) {
     paused = !paused;
+    SFX.play('click');
     if (paused) { ovTitle.textContent = '暂停'; ovSub.textContent = '按 P 继续'; overlay.classList.remove('hidden'); }
     else overlay.classList.add('hidden');
   }
@@ -260,7 +267,7 @@ document.addEventListener('keyup', e => { keys[e.key] = false; });
 let touchActive = false;
 canvas.addEventListener('touchstart', e => {
   touchActive = true;
-  if (!running) { init(); return; }
+  if (!running) { SFX.play('start'); init(); return; }
   movePlayerToTouch(e);
   e.preventDefault();
 }, { passive: false });
@@ -280,7 +287,7 @@ function movePlayerToTouch(e) {
   player.y = Math.max(0, Math.min(H - player.h, my - player.h - 30));
 }
 
-canvas.addEventListener('click', () => { if (!running) init(); });
+canvas.addEventListener('click', () => { if (!running) { SFX.play('start'); init(); } });
 
 // ==================== 启动 ====================
 init();

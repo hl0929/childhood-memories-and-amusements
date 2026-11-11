@@ -279,37 +279,49 @@ ctx.arc(p.x, p.y, p.size * p.life, ...);        // 半径也随生命值缩小
 | 死亡 | 16+6 | 红色+白色 | 强爆发 |
 | 新纪录 | 5波×6 | 四色随机 | 延迟绽放庆祝 |
 
-### 3.9 音效系统（Web Audio API）
+### 3.9 音效系统（共享 sound.js）
 
-```js
-function playTone(freq, duration, type, vol) {
-  ensureAudio();
-  const osc  = audioCtx.createOscillator();  // 振荡器：产生声波
-  const gain = audioCtx.createGain();        // 增益：控制音量
-  osc.type = type;                           // sine / square / sawtooth
-  osc.frequency.setValueAtTime(freq, ...);   // 频率 = 音高
-  gain.gain.exponentialRampToValueAtTime(0.001, ...); // 音量指数衰减
-  osc.connect(gain);                         // 振荡器 → 增益
-  gain.connect(audioCtx.destination);         // 增益 → 扬声器
-  osc.start();
-  osc.stop(audioCtx.currentTime + duration);
-}
+音效不再内联在 `snake/script.js` 中，而是由根目录的 `sound.js` 统一提供。页面在游戏脚本之前引入：
+
+```html
+<script src="../sound.js"></script>
+<script src="script.js"></script>
 ```
 
-音频图连接：`OscillatorNode → GainNode → AudioDestination`
+`script.js` 只保留语义化的薄封装：
 
-三种音效设计：
+```js
+function sfxEat()  { SFX.play('eat'); }
+function sfxGold() { SFX.play('gold'); }
+function sfxDie()  { SFX.play('die'); }
+```
+
+`sound.js` 内部用 Web Audio 实时合成，核心音频图为：
+
+```
+OscillatorNode → GainNode → DynamicsCompressor → AudioDestination
+```
+
+- **OscillatorNode**：产生正弦 / 方波 / 三角 / 锯齿波，决定音色与音高
+- **GainNode**：用指数包络（attack→decay）控制音量，避免爆音
+- **DynamicsCompressor**：多个音效同时播放时压限，防止削波
+- **噪声 Buffer**：预生成 0.5s 白噪声，供爆炸、撞击等音效复用
+
+贪吃蛇用到的三种预设：
 
 | 音效 | 波形 | 频率 | 特点 |
 |------|------|------|------|
-| `sfxEat` | sine（正弦波） | 660→880Hz | 短促双音，清脆悦耳 |
-| `sfxGold` | sine（正弦波） | 880→1100→1320Hz | 三连升音，华丽感 |
-| `sfxDie` | sawtooth（锯齿波） | 220→150Hz | 低沉锯齿波，压迫感 |
+| `eat` | sine（正弦波） | 660→880Hz | 短促双音，清脆悦耳 |
+| `gold` | sine（正弦波） | 880→1100→1320Hz | 三连升音，华丽感 |
+| `die` | sawtooth（锯齿波） | 220→150Hz | 低沉锯齿波，压迫感 |
+
+此外，开始游戏、加速升级也会触发 `start` / `levelup` 预设。
 
 关键细节：
-- `AudioContext` 延迟到首次交互时创建（`ensureAudio`），避免浏览器自动播放策略拦截
-- `gain.exponentialRampToValueAtTime(0.001, ...)` 用指数衰减而非线性衰减，听感更自然（音量按对数刻度衰减）
-- 用 `try/catch` 包裹，音效失败不影响游戏
+- `AudioContext` 延迟到首次点击 / 按键时创建（`pointerdown` / `keydown` 捕获监听），符合浏览器自动播放策略
+- 同名音效有最小播放间隔（`throttle`），避免快速连发时声音糊成一片
+- 每个音效都用 `try/catch` 包裹，失败时静默降级，不影响游戏逻辑
+- 右上角 🔊 按钮或 `M` 键可全局静音，状态写入 `localStorage`
 
 ### 3.10 蛇身绘制：连接段 + 圆角节 + 眼睛
 

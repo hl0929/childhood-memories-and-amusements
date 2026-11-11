@@ -79,6 +79,7 @@ function onHit(h, e) {
   setTimeout(() => h.el.classList.remove('whacked'), 200);
 
   if (h.isBomb) {
+    SFX.play('explode');
     combo = 0;
     comboEl.textContent = 0;
     const pts = -10;
@@ -87,6 +88,7 @@ function onHit(h, e) {
     showScorePop(h, pts);
   } else {
     combo++;
+    SFX.play('whack', { level: combo });
     comboEl.textContent = combo;
     const multiplier = combo >= 5 ? 3 : combo >= 3 ? 2 : 1;
     const pts = 10 * multiplier;
@@ -123,6 +125,7 @@ function startGame() {
   timeLeft  = GAME_TIME;
   highScore = Number(localStorage.getItem('whack_high') || 0);
   running   = true;
+  SFX.play('start');
 
   scoreEl.textContent = 0;
   highEl.textContent  = highScore;
@@ -139,6 +142,7 @@ function startGame() {
   countdownInterval = setInterval(() => {
     timeLeft--;
     timerEl.textContent = timeLeft + 's';
+    if (timeLeft > 0 && timeLeft <= 3) SFX.play('tick');
     if (timeLeft <= 0) endGame();
   }, 1000);
 
@@ -156,6 +160,9 @@ function endGame() {
     localStorage.setItem('whack_high', score);
     highEl.textContent = score;
     extra = ' 🏆 新纪录！';
+    SFX.play('win');
+  } else {
+    SFX.play('gameover');
   }
   resultText.textContent = `本局得分：${score}${extra}`;
   resultEl.classList.remove('hidden');

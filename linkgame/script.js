@@ -83,15 +83,16 @@ function onTileClick(r, c) {
 
   if (!selected) {
     selected = [r, c];
+    SFX.play('select');
     render();
     return;
   }
   const [sr, sc] = selected;
   selected = null;
-  if (sr === r && sc === c) { render(); return; }
+  if (sr === r && sc === c) { SFX.play('click'); render(); return; }
 
   // 必须是相同图案
-  if (grid[sr][sc] !== grid[r][c]) { render(); return; }
+  if (grid[sr][sc] !== grid[r][c]) { SFX.play('invalid'); render(); return; }
 
   // 寻路
   const path = findPath(sr, sc, r, c);
@@ -99,6 +100,7 @@ function onTileClick(r, c) {
     drawLine(path);
     removePair(sr, sc, r, c);
   } else {
+    SFX.play('invalid', { throttle: 160 });
     render();
   }
 }
@@ -182,6 +184,7 @@ function removePair(r1, c1, r2, c2) {
   remainEl.textContent = remaining;
   score += 10;
   scoreEl.textContent = score;
+  SFX.play('match');
 
   // 动画
   const idx1 = (r1 - 1) * COLS + (c1 - 1);
@@ -195,6 +198,7 @@ function removePair(r1, c1, r2, c2) {
     if (remaining <= 0) {
       gameOver = true;
       stopTimer();
+      SFX.play('win');
       msgTitle.textContent = '🎉 通关！';
       msgSub.textContent = `得分 ${score}，用时 ${timerEl.textContent}`;
       setTimeout(() => msgEl.classList.remove('hidden'), 300);
@@ -223,7 +227,8 @@ function hasAnyMatch() {
 }
 
 // ==================== 打乱 ====================
-function shuffleGrid() {
+function shuffleGrid(withSound = true) {
+  if (withSound) SFX.play('shuffle');
   const tiles = [];
   for (let r = 1; r <= ROWS; r++)
     for (let c = 1; c <= COLS; c++)
@@ -242,7 +247,7 @@ function shuffleGrid() {
 
   render();
   // 如果打乱后仍然无解，再打乱一次
-  if (!hasAnyMatch()) shuffleGrid();
+  if (!hasAnyMatch()) shuffleGrid(false);
 }
 
 // ==================== 提示 ====================
@@ -266,7 +271,8 @@ function findHint() {
 
 hintBtn.addEventListener('click', () => {
   const hint = findHint();
-  if (!hint) return;
+  if (!hint) { SFX.play('invalid'); return; }
+  SFX.play('hint');
   const [[r1, c1], [r2, c2]] = hint;
   const idx1 = (r1 - 1) * COLS + (c1 - 1);
   const idx2 = (r2 - 1) * COLS + (c2 - 1);
@@ -280,7 +286,7 @@ hintBtn.addEventListener('click', () => {
 });
 
 shuffleBtn.addEventListener('click', () => { if (!gameOver) shuffleGrid(); });
-restartBtn.addEventListener('click', initGame);
+restartBtn.addEventListener('click', () => { SFX.play('start'); initGame(); });
 
 // ==================== 计时 ====================
 function startTimer() {

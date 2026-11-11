@@ -28,10 +28,10 @@ vsAI = true;
 
 // ==================== 模式 ====================
 modeAi.addEventListener('click', () => {
-  vsAI = true; modeAi.classList.add('active'); mode2p.classList.remove('active'); initGame();
+  vsAI = true; modeAi.classList.add('active'); mode2p.classList.remove('active'); SFX.play('click'); initGame();
 });
 mode2p.addEventListener('click', () => {
-  vsAI = false; mode2p.classList.add('active'); modeAi.classList.remove('active'); initGame();
+  vsAI = false; mode2p.classList.add('active'); modeAi.classList.remove('active'); SFX.play('click'); initGame();
 });
 
 // ==================== 初始化 ====================
@@ -159,14 +159,17 @@ function drawPiece(r, c, player) {
 
 // ==================== 落子 ====================
 function placeStone(r, c) {
-  if (grid[r][c] !== EMPTY || gameOver) return false;
+  if (grid[r][c] !== EMPTY) { SFX.play('invalid', { throttle: 150 }); return false; }
+  if (gameOver) return false;
   grid[r][c] = currentTurn;
+  SFX.play('place');
 
   // 检查胜利
   const line = checkWin(r, c, currentTurn);
   if (line) {
     winLine = line;
     gameOver = true;
+    SFX.play('win');
     const winner = currentTurn === BLACK ? '⚫ 黑棋' : '⚪ 白棋';
     msgTitle.textContent = `🎉 ${winner}获胜！`;
     msgSub.textContent = '点击再来一局';
@@ -178,6 +181,7 @@ function placeStone(r, c) {
   // 检查平局
   if (grid.every(row => row.every(cell => cell !== EMPTY))) {
     gameOver = true;
+    SFX.play('gameover');
     msgTitle.textContent = '🤝 平局！';
     msgSub.textContent = '棋盘已满';
     draw();
@@ -354,7 +358,7 @@ canvas.addEventListener('touchstart', e => {
   e.preventDefault();
 }, { passive: false });
 
-restartBtn.addEventListener('click', initGame);
+restartBtn.addEventListener('click', () => { SFX.play('start'); initGame(); });
 
 // ==================== 启动 ====================
 initGame();

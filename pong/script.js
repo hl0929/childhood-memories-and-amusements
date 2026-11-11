@@ -25,12 +25,14 @@ modeAi.addEventListener('click', () => {
   vsAI = true;
   modeAi.classList.add('active');
   mode2p.classList.remove('active');
+  SFX.play('click');
   reset();
 });
 mode2p.addEventListener('click', () => {
   vsAI = false;
   mode2p.classList.add('active');
   modeAi.classList.remove('active');
+  SFX.play('click');
   reset();
 });
 
@@ -92,8 +94,8 @@ function update() {
   trail = trail.filter(t => t.life > 0);
 
   // 上下墙反弹
-  if (ball.y - BALL_R < 0)  { ball.y = BALL_R; ball.vy = Math.abs(ball.vy); }
-  if (ball.y + BALL_R > H)  { ball.y = H - BALL_R; ball.vy = -Math.abs(ball.vy); }
+  if (ball.y - BALL_R < 0)  { ball.y = BALL_R; ball.vy = Math.abs(ball.vy); SFX.play('bounce'); }
+  if (ball.y + BALL_R > H)  { ball.y = H - BALL_R; ball.vy = -Math.abs(ball.vy); SFX.play('bounce'); }
 
   // 挡板碰撞
   // 左挡板
@@ -104,6 +106,7 @@ function update() {
     ball.vx = Math.abs(speed * Math.cos(rel * 0.7));
     ball.vy = speed * Math.sin(rel * 0.7);
     ball.x = p1.x + p1.w + BALL_R;
+    SFX.play('paddle', { pitch: 1 });
   }
   // 右挡板
   if (ball.vx > 0 && ball.x + BALL_R >= p2.x && ball.x + BALL_R <= p2.x + p2.w &&
@@ -113,24 +116,26 @@ function update() {
     ball.vx = -Math.abs(speed * Math.cos(rel * 0.7));
     ball.vy = speed * Math.sin(rel * 0.7);
     ball.x = p2.x - BALL_R;
+    SFX.play('paddle', { pitch: 0.85 });
   }
 
   // 得分
   if (ball.x - BALL_R < 0) {
     score2++;
     p2El.textContent = score2;
-    checkWin() || resetBall();
+    if (!checkWin()) { SFX.play('point'); resetBall(); }
   }
   if (ball.x + BALL_R > W) {
     score1++;
     p1El.textContent = score1;
-    checkWin() || resetBall();
+    if (!checkWin()) { SFX.play('point'); resetBall(); }
   }
 }
 
 function checkWin() {
   if (score1 >= WIN_SCORE || score2 >= WIN_SCORE) {
     running = false;
+    SFX.play('win');
     const winner = score1 >= WIN_SCORE ? '左方' : '右方';
     draw();
     ctx.fillStyle = 'rgba(0,0,0,0.6)';
@@ -210,12 +215,14 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
     if (!running) {
       if (score1 >= WIN_SCORE || score2 >= WIN_SCORE) reset();
+      SFX.play('start');
       running = true;
       raf = requestAnimationFrame(loop);
     }
   }
   if (e.key.toLowerCase() === 'p' && running) {
     paused = !paused;
+    SFX.play('click');
     if (!paused) { raf = requestAnimationFrame(loop); }
   }
 });
@@ -224,7 +231,7 @@ document.addEventListener('keyup', e => { keys[e.key] = false; });
 // 触摸控制：左半屏控制左方，右半屏控制右方
 let touchP1 = null, touchP2 = null;
 canvas.addEventListener('touchstart', e => {
-  if (!running) { running = true; raf = requestAnimationFrame(loop); }
+  if (!running) { SFX.play('start'); running = true; raf = requestAnimationFrame(loop); }
   handleTouches(e.touches);
   e.preventDefault();
 }, { passive: false });
@@ -252,7 +259,7 @@ function handleTouches(touches) {
 }
 
 canvas.addEventListener('click', () => {
-  if (!running) { running = true; raf = requestAnimationFrame(loop); }
+  if (!running) { SFX.play('start'); running = true; raf = requestAnimationFrame(loop); }
 });
 
 // ==================== 启动 ====================

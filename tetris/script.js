@@ -117,8 +117,8 @@ function rotate(shape) {
   );
 }
 
-function moveLeft()  { if (canPlace(piece.shape, piece.x-1, piece.y)) piece.x--; }
-function moveRight() { if (canPlace(piece.shape, piece.x+1, piece.y)) piece.x++; }
+function moveLeft()  { if (canPlace(piece.shape, piece.x-1, piece.y)) { piece.x--; SFX.play('move'); } }
+function moveRight() { if (canPlace(piece.shape, piece.x+1, piece.y)) { piece.x++; SFX.play('move'); } }
 function rotatePiece() {
   const r = rotate(piece.shape);
   // wall kick
@@ -129,11 +129,13 @@ function rotatePiece() {
   }
   piece.shape = r;
   piece.x += offset;
+  SFX.play('rotate');
 }
 
-function moveDown() {
+function moveDown(manual = false) {
   if (canPlace(piece.shape, piece.x, piece.y + 1)) {
     piece.y++;
+    if (manual) SFX.play('move');
   } else {
     lock();
   }
@@ -141,10 +143,11 @@ function moveDown() {
 
 function hardDrop() {
   while (canPlace(piece.shape, piece.x, piece.y + 1)) piece.y++;
-  lock();
+  SFX.play('drop');
+  lock(true);
 }
 
-function lock() {
+function lock(fromHardDrop = false) {
   piece.shape.forEach((row, r) => {
     row.forEach((cell, c) => {
       if (!cell) return;
@@ -152,6 +155,7 @@ function lock() {
       if (ny >= 0) board[ny][piece.x + c] = piece.color;
     });
   });
+  if (!fromHardDrop) SFX.play('lock');
   clearLines();
   spawnPiece();
 }
@@ -167,6 +171,8 @@ function clearLines() {
     }
   }
   if (!cleared) return;
+  SFX.play('clear', { count: cleared });
+  const prevLevel = level;
   const pts = [0, 100, 300, 500, 800][cleared] * level;
   score += pts;
   lines += cleared;
@@ -175,6 +181,7 @@ function clearLines() {
   scoreEl.textContent = score;
   linesEl.textContent = lines;
   levelEl.textContent = level;
+  if (level > prevLevel) SFX.play('levelup');
   if (score > highScore) {
     highScore = score;
     highEl.textContent = highScore;
@@ -184,6 +191,7 @@ function clearLines() {
 
 function gameOver() {
   running = false;
+  SFX.play('gameover');
   overlayTitle.textContent = '游戏结束';
   overlaySub.textContent   = `得分 ${score} — 按 R 重新开始`;
   overlay.classList.remove('hidden');
@@ -264,9 +272,10 @@ function drawNext() {
 
 // ==================== 键盘输入 ====================
 document.addEventListener('keydown', e => {
-  if (!running && e.key.toLowerCase() === 'r') { init(); return; }
+  if (!running && e.key.toLowerCase() === 'r') { SFX.play('start'); init(); return; }
   if (e.key.toLowerCase() === 'p') {
     paused = !paused;
+    SFX.play('click');
     if (paused) {
       overlayTitle.textContent = '暂停';
       overlaySub.textContent   = '按 P 继续';
@@ -281,7 +290,7 @@ document.addEventListener('keydown', e => {
   switch (e.key) {
     case 'ArrowLeft':  case 'a': case 'A': moveLeft();    break;
     case 'ArrowRight': case 'd': case 'D': moveRight();   break;
-    case 'ArrowDown':  case 's': case 'S': moveDown();    break;
+    case 'ArrowDown':  case 's': case 'S': moveDown(true); break;
     case 'ArrowUp':    case 'w': case 'W': rotatePiece(); break;
     case ' ': hardDrop(); break;
   }

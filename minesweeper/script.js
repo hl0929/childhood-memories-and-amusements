@@ -21,6 +21,7 @@ diffBtns.forEach(btn => {
     ROWS  = Number(btn.dataset.rows);
     COLS  = Number(btn.dataset.cols);
     MINES = Number(btn.dataset.mines);
+    SFX.play('start');
     initGame();
   });
 });
@@ -110,6 +111,7 @@ function reveal(r, c) {
     // 踩雷
     gameOver = true;
     clearInterval(timerInterval);
+    SFX.play('explode');
     // 显示所有雷
     for (let rr = 0; rr < ROWS; rr++)
       for (let cc = 0; cc < COLS; cc++)
@@ -137,6 +139,7 @@ function reveal(r, c) {
 function toggleFlag(r, c) {
   if (revealed[r][c] || gameOver) return;
   flagged[r][c] = !flagged[r][c];
+  SFX.play(flagged[r][c] ? 'flag' : 'unflag');
   minesLeft += flagged[r][c] ? -1 : 1;
   minesLeftEl.textContent = minesLeft;
   render();
@@ -151,6 +154,7 @@ function checkWin() {
   if (unrevealed === MINES) {
     gameOver = true;
     clearInterval(timerInterval);
+    SFX.play('win');
     // 自动标记所有雷
     for (let r = 0; r < ROWS; r++)
       for (let c = 0; c < COLS; c++)
@@ -186,7 +190,10 @@ boardEl.addEventListener('click', e => {
     startTimer();
   }
   reveal(r, c);
-  if (!gameOver) render();
+  if (!gameOver) {
+    SFX.play('reveal');
+    render();
+  }
 });
 
 // 右键标旗
@@ -217,7 +224,7 @@ boardEl.addEventListener('touchmove', () => { clearTimeout(longPressTimer); }, {
 
 // 键盘
 document.addEventListener('keydown', e => {
-  if (e.key.toLowerCase() === 'r') initGame();
+  if (e.key.toLowerCase() === 'r') { SFX.play('start'); initGame(); }
 });
 
 // ==================== 启动 ====================

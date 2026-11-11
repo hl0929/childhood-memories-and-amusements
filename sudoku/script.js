@@ -25,6 +25,7 @@ diffBtns.forEach(btn => {
     diffBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     difficulty = btn.dataset.diff;
+    SFX.play('start');
     initGame();
   });
 });
@@ -185,7 +186,9 @@ function render() {
 
 // ==================== 选择格子 ====================
 function selectCell(r, c) {
+  const same = (r === selectedR && c === selectedC);
   selectedR = r; selectedC = c;
+  if (!same) SFX.play('select');
   if (!startTime) startTimer();
   render();
 }
@@ -199,6 +202,7 @@ function inputNumber(n) {
     if (playerGrid[selectedR][selectedC] !== 0) return;
     const s = notes[selectedR][selectedC];
     if (s.has(n)) s.delete(n); else s.add(n);
+    SFX.play('tick');
     render();
     return;
   }
@@ -210,7 +214,9 @@ function inputNumber(n) {
   if (n !== solution[selectedR][selectedC]) {
     errors++;
     errorsEl.textContent = errors;
+    SFX.play('invalid');
   } else {
+    SFX.play('place');
     // 自动清除同行/列/宫中相同数字的笔记
     clearRelatedNotes(selectedR, selectedC, n);
   }
@@ -234,6 +240,7 @@ function clearRelatedNotes(r, c, num) {
 // ==================== 擦除 ====================
 eraseBtn.addEventListener('click', () => {
   if (selectedR < 0 || puzzle[selectedR][selectedC] !== 0) return;
+  if (playerGrid[selectedR][selectedC] !== 0) SFX.play('undo');
   playerGrid[selectedR][selectedC] = 0;
   notes[selectedR][selectedC].clear();
   render();
@@ -242,6 +249,7 @@ eraseBtn.addEventListener('click', () => {
 // ==================== 笔记模式 ====================
 noteBtn.addEventListener('click', () => {
   noteMode = !noteMode;
+  SFX.play('click');
   noteBtn.classList.toggle('active', noteMode);
 });
 
@@ -250,12 +258,13 @@ document.addEventListener('keydown', e => {
   if (e.key >= '1' && e.key <= '9') inputNumber(+e.key);
   if (e.key === 'Backspace' || e.key === 'Delete') {
     if (selectedR >= 0 && puzzle[selectedR][selectedC] === 0) {
+      if (playerGrid[selectedR][selectedC] !== 0) SFX.play('undo');
       playerGrid[selectedR][selectedC] = 0;
       notes[selectedR][selectedC].clear();
       render();
     }
   }
-  if (e.key === 'n' || e.key === 'N') { noteMode = !noteMode; noteBtn.classList.toggle('active', noteMode); }
+  if (e.key === 'n' || e.key === 'N') { noteMode = !noteMode; SFX.play('click'); noteBtn.classList.toggle('active', noteMode); }
   // 方向键移动选择
   if (selectedR >= 0) {
     if (e.key === 'ArrowUp')    { e.preventDefault(); selectCell(Math.max(0, selectedR - 1), selectedC); }
@@ -272,6 +281,7 @@ function checkWin() {
       if (playerGrid[r][c] !== solution[r][c]) return;
 
   clearInterval(timerInterval);
+  SFX.play('win');
   msgTitle.textContent = '🎉 完美通关！';
   msgSub.textContent = `用时 ${timerEl.textContent}，错误 ${errors} 次`;
   setTimeout(() => msgEl.classList.remove('hidden'), 300);
@@ -286,7 +296,7 @@ function startTimer() {
   }, 1000);
 }
 
-restartBtn.addEventListener('click', initGame);
+restartBtn.addEventListener('click', () => { SFX.play('start'); initGame(); });
 
 // ==================== 启动 ====================
 initGame();
