@@ -1,8 +1,8 @@
 :root {
-  --accent: #00e676;
-  --accent-glow: rgba(0,230,118,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
+  --accent: #109a67;
+  --accent-glow: rgba(16,154,103,0.26);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {

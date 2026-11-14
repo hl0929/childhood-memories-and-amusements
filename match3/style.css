@@ -1,9 +1,9 @@
 :root {
-  --accent: #dd44ff;
-  --accent-glow: rgba(221,68,255,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
-  --cell: rgba(255,255,255,0.04);
+  --accent: #9146d1;
+  --accent-glow: rgba(145,70,209,0.26);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
+  --cell: #f5edff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -32,20 +32,22 @@ h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 1
   grid-template-columns:repeat(8,1fr);
   gap: clamp(2px, 0.8vw, 4px);
   padding: clamp(4px, 1.5vw, 8px);
-  background:rgba(0,0,0,.3);
+  background:#f7f0ff;
   border:2px solid var(--border);
   border-radius:12px;
   box-shadow:0 0 30px var(--accent-glow);
-  width: min(100%, calc(8 * 48px + 7 * 4px + 16px));
+  width: min(100%, 460px);
 }
 
 /* 宝石格 */
 .gem {
   aspect-ratio: 1;
-  border-radius:10px;
+  border-radius:12px;
+  border:2px solid rgba(255,255,255,0.9);
   display:flex; align-items:center; justify-content:center;
   font-size:clamp(1rem, 3.5vw, 1.5rem);
   background:var(--cell);
+  box-shadow:0 3px 0 rgba(145,70,209,0.10);
   cursor:pointer;
   transition:transform .12s, box-shadow .12s, opacity .2s;
   user-select:none;

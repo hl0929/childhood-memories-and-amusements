@@ -1,0 +1,422 @@
+/* ============================================================
+ * 全站布局规范（在各游戏 style.css 之后引入）
+ * ------------------------------------------------------------
+ * 目标：
+ *  1. 固定返回按钮 + 右上角音效按钮，形成统一顶栏
+ *  2. 内容垂直居中，但内容超高时可从顶部正常滚动
+ *  3. 统一安全区、间距、触摸目标与弹窗宽度
+ * ============================================================ */
+:root {
+  --page-pad: clamp(12px, 2.5vw, 24px);
+  --page-gap: clamp(10px, 1.4vh, 16px);
+  --topbar-offset: clamp(10px, 1.5vh, 16px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding:
+    calc(env(safe-area-inset-top, 0px) + 54px)
+    max(var(--page-pad), env(safe-area-inset-right, 0px))
+    calc(env(safe-area-inset-bottom, 0px) + 16px)
+    max(var(--page-pad), env(safe-area-inset-left, 0px));
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 内容较少时自动居中；内容超高时 auto 外边距归零，顶部不会被裁切 */
+.container {
+  margin-block: auto;
+  padding: 0;
+  gap: var(--page-gap);
+}
+
+h1 {
+  line-height: 1.2;
+}
+
+/* ==================== 统一浮动返回按钮 ==================== */
+.back {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + var(--topbar-offset));
+  left: max(12px, env(safe-area-inset-left, 0px));
+  z-index: 9998;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 34px;
+  padding: 9px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 20, 35, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.8rem;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.back:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.back:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* ==================== 统一文字与触摸细节 ==================== */
+.controls,
+.hint,
+.hint-text {
+  max-width: 100%;
+  line-height: 1.65;
+}
+
+.controls .hint {
+  line-height: 1.65;
+}
+
+.score-board .label {
+  white-space: nowrap;
+}
+
+.score-board span:last-child {
+  font-variant-numeric: tabular-nums;
+}
+
+button,
+.game-btn,
+.diff-btn,
+.restart-btn,
+.start-btn {
+  font-family: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 2px;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+/* ==================== 弹窗自适应 ==================== */
+.msg-box,
+.win-box,
+.result {
+  max-width: min(92vw, 520px);
+}
+
+/* ==================== 窄屏 / 矮屏适配 ==================== */
+@media (max-width: 480px) {
+  :root {
+    --page-gap: 10px;
+  }
+
+  body {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+  }
+
+  .msg-box,
+  .win-box {
+    padding: 24px 20px;
+  }
+
+  .game-btn,
+  .diff-btn,
+  .restart-btn {
+    min-height: 34px;
+  }
+}
+
+@media (pointer: coarse) {
+  .game-btn,
+  .diff-btn,
+  .restart-btn {
+    min-height: 38px;
+  }
+}
+
+@media (max-height: 620px) {
+  body {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 44px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back {
+    transition: none;
+  }
+}
+
+/* ============================================================
+ * Q 版糖果主题
+ * ------------------------------------------------------------
+ * 浅奶油渐变底 + 白色贴纸卡片 + 糖果色强调色
+ * 深色游戏画布保留为「游戏屏幕」，由白色圆角边框包住
+ * ============================================================ */
+:root {
+  --q-ink: #3e2b50;
+  --q-ink-soft: #6e5a80;
+  --q-muted: #8b789b;
+  --q-card: rgba(255, 255, 255, 0.86);
+  --q-line: #f0e3f2;
+  --q-shadow: 0 5px 0 rgba(155, 120, 180, 0.1), 0 16px 34px rgba(120, 90, 150, 0.1);
+}
+
+body {
+  color: var(--q-ink);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(255, 204, 230, 0.78), transparent 34%),
+    radial-gradient(circle at 86% 14%, rgba(188, 229, 255, 0.78), transparent 36%),
+    radial-gradient(circle at 18% 94%, rgba(255, 239, 187, 0.7), transparent 34%),
+    linear-gradient(160deg, #fffaf4 0%, #f9f2ff 48%, #eefaff 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(255, 182, 220, 0.6);
+  color: var(--q-ink);
+}
+
+h1 {
+  color: var(--q-ink);
+  letter-spacing: 2px;
+  text-shadow: 0 2px 0 #fff, 0 7px 18px rgba(150, 110, 180, 0.18);
+}
+
+/* ==================== 顶栏按钮 ==================== */
+.back {
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--q-ink-soft);
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12), 0 8px 20px rgba(120, 90, 150, 0.1);
+}
+
+.back:hover {
+  background: #fff;
+  color: var(--accent);
+}
+
+/* ==================== 数据卡片 ==================== */
+.score-board {
+  background: var(--q-card);
+  border: 2px solid #fff;
+  border-radius: 18px;
+  color: var(--q-ink);
+  box-shadow: var(--q-shadow);
+}
+
+.score-board .label {
+  color: var(--q-muted);
+}
+
+.score-board span:last-child,
+#score,
+#high-score,
+#speed {
+  color: var(--accent);
+}
+
+#score-pop {
+  color: var(--accent);
+}
+
+.panel {
+  background: var(--q-card);
+  border: 2px solid #fff;
+  border-radius: 16px;
+  box-shadow: var(--q-shadow);
+}
+
+.panel .label {
+  color: var(--q-muted);
+}
+
+.panel .value {
+  color: var(--accent);
+}
+
+/* ==================== 操作提示 ==================== */
+.controls,
+.hint,
+.hint-text,
+.controls .hint {
+  color: var(--q-muted);
+}
+
+.hint b {
+  color: var(--q-ink-soft);
+}
+
+/* ==================== 糖果按钮 ==================== */
+.game-btn,
+.diff-btn,
+.restart-btn,
+.numpad button,
+.mobile-btns button,
+.dir-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--q-ink-soft);
+  border: 2px solid #fff;
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12);
+}
+
+.dir-btn,
+.mobile-btns button {
+  color: var(--accent);
+}
+
+.game-btn:hover,
+.diff-btn:hover,
+.restart-btn:hover,
+.numpad button:hover,
+.mobile-btns button:hover,
+.dir-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 rgba(120, 90, 150, 0.18);
+}
+
+.game-btn.active,
+.diff-btn.active,
+.game-btn.active:hover,
+.diff-btn.active:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.dir-btn:active,
+.mobile-btns button:active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.start-btn {
+  color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 0 6px 0 rgba(199, 106, 0, 0.35), 0 14px 28px rgba(240, 138, 26, 0.25);
+}
+
+.start-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ==================== 棋盘 / 画布相框 ==================== */
+.board,
+.canvas-wrapper,
+.canvas-wrap {
+  border: 4px solid #fff;
+  border-radius: 24px;
+  box-shadow: 0 6px 0 rgba(155, 120, 180, 0.12), 0 20px 44px rgba(120, 90, 150, 0.14);
+}
+
+/* 深色游戏画布上的开始 / 暂停遮罩 */
+.overlay {
+  background: rgba(58, 38, 74, 0.78);
+}
+
+#overlay-title,
+#ov-title {
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15), 0 0 18px var(--accent-glow);
+}
+
+#overlay-sub,
+#ov-sub {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+/* ==================== 弹窗 ==================== */
+.msg,
+.win-msg {
+  background: rgba(70, 45, 85, 0.32);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.msg-box,
+.win-box,
+.result {
+  background: #fffdf9;
+  border: 3px solid #fff;
+  border-radius: 26px;
+  color: var(--q-ink);
+  box-shadow:
+    0 0 0 2px rgba(61, 43, 79, 0.06),
+    0 10px 0 rgba(155, 120, 180, 0.08),
+    0 28px 60px rgba(90, 60, 110, 0.18);
+}
+
+#msg-title,
+#win-title {
+  color: var(--q-ink);
+}
+
+#msg-sub,
+#win-detail,
+#result-text {
+  color: var(--q-ink-soft);
+}
+
+.msg-box button,
+.win-box button,
+.result button {
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 0 rgba(120, 90, 150, 0.18);
+}
+
+/* 连锁提示改为糖果胶囊 */
+.chain-pop {
+  color: #fff;
+  background: linear-gradient(135deg, #ffb13b, #ff8a3d);
+  padding: 8px 18px;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 5px 0 rgba(200, 100, 20, 0.3), 0 12px 24px rgba(240, 140, 40, 0.25);
+  text-shadow: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}

@@ -331,7 +331,7 @@
     toggleBtn.title = text;
     toggleBtn.setAttribute('aria-label', text);
     toggleBtn.setAttribute('aria-pressed', String(muted));
-    toggleBtn.style.opacity = muted ? '0.6' : '1';
+    toggleBtn.style.opacity = muted ? '0.55' : '1';
   }
 
   function ensureButton() {
@@ -350,19 +350,19 @@
     s.height = '38px';
     s.padding = '0';
     s.borderRadius = '50%';
-    s.border = '1px solid rgba(255,255,255,.18)';
-    s.background = 'rgba(20,20,35,.55)';
-    s.color = '#fff';
-    s.fontSize = '17px';
+    s.border = '2px solid #fff';
+    s.background = 'rgba(255,255,255,.88)';
+    s.color = '#6e5a80';
+    s.fontSize = '18px';
     s.lineHeight = '1';
     s.cursor = 'pointer';
     s.zIndex = '9999';
     s.display = 'flex';
     s.alignItems = 'center';
     s.justifyContent = 'center';
-    s.backdropFilter = 'blur(6px)';
-    s.webkitBackdropFilter = 'blur(6px)';
-    s.boxShadow = '0 2px 10px rgba(0,0,0,.3)';
+    s.backdropFilter = 'blur(8px)';
+    s.webkitBackdropFilter = 'blur(8px)';
+    s.boxShadow = '0 3px 0 rgba(155,120,180,.14), 0 8px 20px rgba(120,90,150,.12)';
     s.transition = 'transform .15s, opacity .15s';
     s.touchAction = 'manipulation';
 

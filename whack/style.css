@@ -1,9 +1,9 @@
 :root {
-  --accent: #ff9500;
-  --accent-glow: rgba(255,149,0,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
-  --hole: #1a0e00;
+  --accent: #d97706;
+  --accent-glow: rgba(217,119,6,0.26);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
+  --hole: #5b3b2a;
   --mole: #8B4513;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -33,7 +33,7 @@ h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 1
   grid-template-columns:repeat(3,1fr);
   gap: clamp(10px, 3vw, 20px);
   padding: clamp(12px, 3vw, 24px);
-  background:rgba(0,0,0,.3);
+  background:linear-gradient(160deg,#eafbe0,#d8f3c8);
   border:2px solid var(--border);
   border-radius:16px;
   box-shadow:0 0 30px var(--accent-glow);

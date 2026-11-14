@@ -1,8 +1,8 @@
 :root {
-  --accent: #ef5350;
-  --accent-glow: rgba(239,83,80,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
+  --accent: #d14b4b;
+  --accent-glow: rgba(209,75,75,0.26);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -38,7 +38,12 @@ h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16p
   border-radius:8px; overflow:hidden;
   border:2px solid var(--border);
   box-shadow:0 0 30px var(--accent-glow);
-  width:100%; max-width:600px;
+  width:100%; max-width:500px;
+}
+@supports (height: 100dvh) {
+  .canvas-wrapper {
+    max-width: min(500px, max(300px, calc(100dvh - 320px)));
+  }
 }
 .canvas-wrapper canvas {
   display:block; width:100% !important; height:auto !important;

@@ -183,8 +183,8 @@ function endGame() {
 function draw() {
   // 背景
   const bg = ctx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, '#0d1117');
-  bg.addColorStop(1, '#111827');
+  bg.addColorStop(0, '#241b33');
+  bg.addColorStop(1, '#1b1426');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 

@@ -1,8 +1,8 @@
 :root {
-  --accent: #00f5ff;
-  --accent-glow: rgba(0,245,255,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
+  --accent: #1f8fc4;
+  --accent-glow: rgba(31,143,196,0.28);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -29,7 +29,13 @@ h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 1
   border:2px solid var(--border); border-radius:8px; overflow:hidden;
   box-shadow:0 0 30px var(--accent-glow);
   width:100%;
-  max-width: 480px;
+  max-width: 520px;
+}
+/* 矮屏笔记本 / 横屏手机：按可用高度回缩画布 */
+@supports (height: 100dvh) {
+  .canvas-wrapper {
+    max-width: min(520px, max(300px, calc(92.3dvh - 249px)));
+  }
 }
 .canvas-wrapper canvas {
   display:block;

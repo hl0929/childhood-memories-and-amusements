@@ -1,14 +1,14 @@
 :root {
-  --accent: #ffab00;
-  --accent-glow: rgba(255,171,0,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
-  --wall: #3a3a5c;
-  --floor: #1a1a2e;
-  --target: rgba(255,171,0,0.25);
-  --box: #8d6e63;
-  --box-done: #66bb6a;
-  --player: #4fc3f7;
+  --accent: #c07a00;
+  --accent-glow: rgba(192,122,0,0.24);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
+  --wall: #c3b1ee;
+  --floor: #fff6e6;
+  --target: #ffe08a;
+  --box: #ffb26b;
+  --box-done: #7bd88f;
+  --player: #5ec8ff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -35,25 +35,25 @@ h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16p
 .board {
   display:inline-grid;
   gap:2px;
-  background:rgba(0,0,0,.3);
+  background:#f7f0ff;
   border:2px solid var(--border);
   border-radius:8px;
   padding:4px;
 }
 .cell {
-  width: clamp(28px, calc((100vw - 80px) / var(--cols, 8)), 40px);
-  height: clamp(28px, calc((100vw - 80px) / var(--cols, 8)), 40px);
+  width: clamp(28px, calc((100vw - 80px) / var(--cols, 8)), 48px);
+  height: clamp(28px, calc((100vw - 80px) / var(--cols, 8)), 48px);
   display:flex; align-items:center; justify-content:center;
   font-size:clamp(1rem,3vw,1.6rem);
-  border-radius:4px;
+  border-radius:8px;
   user-select:none;
 }
-.cell.wall { background:var(--wall); }
+.cell.wall { background:var(--wall); border-radius:8px; }
 .cell.floor { background:var(--floor); }
-.cell.target { background:var(--target); }
-.cell.box { background:var(--box); border-radius:6px; }
-.cell.box-done { background:var(--box-done); border-radius:6px; }
-.cell.player { background:var(--player); border-radius:50%; }
+.cell.target { background:var(--target); border-radius:50%; }
+.cell.box { background:var(--box); border-radius:10px; box-shadow:inset 0 -3px 0 rgba(160,80,20,.18); }
+.cell.box-done { background:var(--box-done); border-radius:10px; box-shadow:inset 0 -3px 0 rgba(30,140,70,.18); }
+.cell.player { background:var(--player); border-radius:50%; box-shadow:inset 0 -3px 0 rgba(20,120,180,.18); }
 
 .btn-row { display:flex; gap:10px; }
 .game-btn {

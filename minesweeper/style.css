@@ -1,11 +1,11 @@
 :root {
-  --accent: #4fc3f7;
-  --accent-glow: rgba(79,195,247,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
-  --cell-up: #2a2a4a;
-  --cell-down: #1a1a2e;
-  --cell-hover: rgba(255,255,255,0.08);
+  --accent: #2f7fd1;
+  --accent-glow: rgba(47,127,209,0.26);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
+  --cell-up: #d6eaff;
+  --cell-down: #fffaf0;
+  --cell-hover: #c3e0ff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -38,32 +38,39 @@ h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16p
 
 /* 棋盘 */
 .board {
-  display:inline-grid;
+  display:grid;
+  max-width:100%;
+  margin-inline:auto;
+  overflow:auto;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
   gap:2px;
-  background:rgba(0,0,0,.3);
+  background:#eef7ff;
   border:2px solid var(--border);
-  border-radius:8px;
+  border-radius:18px;
   padding:4px;
   user-select:none;
 }
 
 /* 格子 */
 .cell {
-  width: clamp(24px, calc((100vw - 80px) / var(--cols, 9)), 32px);
-  height: clamp(24px, calc((100vw - 80px) / var(--cols, 9)), 32px);
+  width: clamp(18px, calc((min(100vw, 800px) - 72px) / var(--cols, 9)), 44px);
+  height: clamp(18px, calc((min(100vw, 800px) - 72px) / var(--cols, 9)), 44px);
   display:flex; align-items:center; justify-content:center;
-  font-size:clamp(.7rem,1.8vw,.9rem); font-weight:700;
+  font-size:clamp(.65rem,1.8vw,.9rem); font-weight:700;
   background:var(--cell-up);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:3px;
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:5px;
   cursor:pointer;
   transition:background .1s;
+  flex:none;
 }
 .cell:hover { background:var(--cell-hover); }
 .cell.revealed {
   background:var(--cell-down);
   cursor:default;
-  border-color:rgba(255,255,255,.02);
+  border-color:rgba(160,130,180,.10);
 }
 .cell.mine-exploded {
   background:#ff4444;
@@ -78,14 +85,14 @@ h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16p
 .cell.mine-revealed::after { content:'💣'; }
 
 /* 数字颜色 */
-.n1 { color:#4fc3f7; }
-.n2 { color:#66bb6a; }
-.n3 { color:#ef5350; }
-.n4 { color:#ab47bc; }
-.n5 { color:#ff7043; }
-.n6 { color:#26c6da; }
-.n7 { color:#ec407a; }
-.n8 { color:#bdbdbd; }
+.n1 { color:#3b82c4; }
+.n2 { color:#2f9e5b; }
+.n3 { color:#d94a4a; }
+.n4 { color:#8e44ad; }
+.n5 { color:#d97706; }
+.n6 { color:#0e8f9e; }
+.n7 { color:#c2185b; }
+.n8 { color:#6b7280; }
 
 .controls { font-size:.75rem; color:rgba(255,255,255,.35); text-align:center; }
 

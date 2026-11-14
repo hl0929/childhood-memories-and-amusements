@@ -23,9 +23,11 @@ const dpr  = window.devicePixelRatio || 1;
 let SIZE = 400;
 // 根据屏幕大小动态调整画布尺寸
 function calcCanvasSize() {
-  const maxW = Math.min(window.innerWidth - 48, 400);
-  const maxH = window.innerHeight - 260;
-  return Math.max(200, Math.min(maxW, maxH, 400));
+  const compact = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 480;
+  const maxW = Math.min(window.innerWidth - 40, 420);
+  // 触屏设备需要给虚拟方向键预留空间
+  const maxH = window.innerHeight - (compact ? 330 : 260);
+  return Math.max(200, Math.min(maxW, maxH, 420));
 }
 SIZE = calcCanvasSize();
 canvas.width  = SIZE * dpr;
@@ -43,7 +45,7 @@ gridCanvas.height = SIZE * dpr;
 const gridCtx     = gridCanvas.getContext('2d');
 gridCtx.scale(dpr, dpr);
 (function drawGrid() {
-  gridCtx.fillStyle = '#1a1a2e';
+  gridCtx.fillStyle = '#241b33';
   gridCtx.fillRect(0, 0, SIZE, SIZE);
   gridCtx.strokeStyle = 'rgba(255,255,255,0.03)';
   gridCtx.lineWidth = 0.5;

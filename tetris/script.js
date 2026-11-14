@@ -2,11 +2,14 @@
 const COLS = 10, ROWS = 20;
 // 根据屏幕大小动态计算方块大小
 function calcBlockSize() {
-  const maxW = Math.min(window.innerWidth - 200, 300); // 留出侧边栏空间
-  const maxH = window.innerHeight - 200;
+  const stacked = window.innerWidth <= 520; // 手机端侧栏会折到棋盘下方
+  const maxW = stacked
+    ? window.innerWidth - 48
+    : Math.min(window.innerWidth - 280, 340);
+  const maxH = window.innerHeight - (stacked ? 320 : 210);
   const fromW = Math.floor(maxW / COLS);
   const fromH = Math.floor(maxH / ROWS);
-  return Math.max(16, Math.min(30, fromW, fromH));
+  return Math.max(14, Math.min(30, fromW, fromH));
 }
 let BLOCK = calcBlockSize();
 
@@ -323,6 +326,27 @@ if (mbLeft)   mbLeft.addEventListener('click',   () => { if (running && !paused)
 if (mbRight)  mbRight.addEventListener('click',  () => { if (running && !paused) moveRight(); });
 if (mbRotate) mbRotate.addEventListener('click', () => { if (running && !paused) rotatePiece(); });
 if (mbDown)   mbDown.addEventListener('click',   () => { if (running && !paused) hardDrop(); });
+
+// ==================== 窗口尺寸变化 ====================
+function resizeBoard() {
+  const next = calcBlockSize();
+  if (next === BLOCK) return;
+  BLOCK = next;
+  canvas.width  = COLS * BLOCK;
+  canvas.height = ROWS * BLOCK;
+  nextCanvas.width  = 4 * BLOCK;
+  nextCanvas.height = 4 * BLOCK;
+  nextCanvas.style.width  = (4 * BLOCK) + 'px';
+  nextCanvas.style.height = (4 * BLOCK) + 'px';
+  draw();
+  drawNext();
+}
+
+let resizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(resizeBoard, 150);
+});
 
 // ==================== 启动 ====================
 init();

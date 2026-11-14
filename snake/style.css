@@ -1,16 +1,16 @@
 /* ==================== 主题变量 ==================== */
 :root {
-  --bg-dark: #1a1a2e;
-  --accent: #00ff88;
-  --accent-dim: rgba(0, 255, 136, 0.15);
-  --accent-glow: rgba(0, 255, 136, 0.5);
-  --food-red: #ff5050;
-  --food-gold: #ffd700;
-  --panel-bg: rgba(255, 255, 255, 0.06);
-  --panel-border: rgba(255, 255, 255, 0.1);
-  --text-dim: rgba(255, 255, 255, 0.5);
-  --text-sub: rgba(255, 255, 255, 0.7);
-  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --bg-dark: #241b33;
+  --accent: #1a9f63;
+  --accent-dim: rgba(26, 159, 99, 0.16);
+  --accent-glow: rgba(26, 159, 99, 0.35);
+  --food-red: #ff6b8a;
+  --food-gold: #ffc93c;
+  --panel-bg: rgba(255, 255, 255, 0.86);
+  --panel-border: #fff;
+  --text-dim: #9683a6;
+  --text-sub: #6e5a80;
+  --overlay-bg: rgba(58, 38, 74, 0.78);
 }
 
 /* ==================== 全局重置 ==================== */
@@ -222,7 +222,7 @@ canvas {
 /* ==================== 画布自适应 ====================*/
 .canvas-wrapper {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
 }
 .canvas-wrapper canvas {
   width: 100% !important;

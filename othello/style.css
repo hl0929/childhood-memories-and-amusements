@@ -1,10 +1,10 @@
 :root {
-  --accent: #78909c;
-  --accent-glow: rgba(120,144,156,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
-  --board-bg: #1b5e20;
-  --cell-bg: #2e7d32;
+  --accent: #2b8f63;
+  --accent-glow: rgba(43,143,99,0.26);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
+  --board-bg: #8fd6a8;
+  --cell-bg: #afe6c2;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -47,7 +47,7 @@ h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16p
   box-shadow:0 0 30px rgba(27,94,32,.4);
   width: min(100%, calc(8 * var(--cell, 48px) + 7 * 2px + 12px));
 }
-.board { --cell: clamp(36px, calc((100vw - 80px) / 8), 48px); }
+.board { --cell: clamp(30px, calc((min(100vw, 600px) - 64px) / 8), 48px); }
 
 .cell {
   width: var(--cell);
@@ -59,8 +59,8 @@ h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16p
   transition:background .1s;
   position:relative;
 }
-.cell:hover { background:#388e3c; }
-.cell.valid { background:#43a047; }
+.cell:hover { background:#9bdcb2; }
+.cell.valid { background:#7ed39b; }
 
 /* 棋子 */
 .piece {

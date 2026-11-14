@@ -1,8 +1,8 @@
 :root {
-  --accent: #ff5252;
-  --accent-glow: rgba(255,82,82,0.4);
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
+  --accent: #d94343;
+  --accent-glow: rgba(217,67,67,0.26);
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -29,6 +29,12 @@ h1 { font-size:clamp(1.3rem,4vw,1.8rem); letter-spacing:3px; text-shadow:0 0 16p
   border:2px solid var(--border); border-radius:8px; overflow:hidden;
   box-shadow:0 0 30px var(--accent-glow);
   width:100%; max-width:420px;
+}
+/* 竖屏射击游戏按可用高度回缩，避免底部操作提示被挤出视口 */
+@supports (height: 100dvh) {
+  .canvas-wrapper {
+    max-width: min(420px, max(220px, calc(70dvh - 161px)));
+  }
 }
 .canvas-wrapper canvas {
   display:block; width:100% !important; height:auto !important;

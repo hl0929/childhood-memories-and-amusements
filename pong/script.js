@@ -155,7 +155,7 @@ function checkWin() {
 // ==================== 绘制 ====================
 function draw() {
   // 背景
-  ctx.fillStyle = '#0d1117';
+  ctx.fillStyle = '#241b33';
   ctx.fillRect(0, 0, W, H);
 
   // 中线

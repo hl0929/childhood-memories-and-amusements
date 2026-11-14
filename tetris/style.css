@@ -1,8 +1,8 @@
 :root {
-  --bg: #0f0c29;
-  --accent: #00ff88;
-  --panel: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.1);
+  --bg: #fffaf4;
+  --accent: #159e74;
+  --panel: rgba(255,255,255,0.86);
+  --border: #fff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -32,7 +32,7 @@ h1 { font-size:clamp(1.3rem, 4vw, 1.8rem); letter-spacing:3px; text-shadow:0 0 1
   box-shadow:0 0 30px rgba(0,255,136,.1);
   flex-shrink: 0;
 }
-canvas#board { display:block; background:#111827; max-width:100%; height:auto; }
+canvas#board { display:block; background:#241b33; max-width:100%; height:auto; }
 .overlay {
   position:absolute; inset:0;
   background:rgba(0,0,0,.75);
