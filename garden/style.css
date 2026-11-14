@@ -1,0 +1,232 @@
+:root {
+  --accent: #2f9e5b;
+  --accent-glow: rgba(47, 158, 91, 0.24);
+  --panel: rgba(255, 255, 255, 0.86);
+  --border: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+}
+
+.game-info {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.score-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 64px;
+  padding: 6px 14px;
+}
+
+.score-board .label {
+  font-size: 0.6rem;
+  letter-spacing: 0;
+}
+
+.score-board span:last-child {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 820px;
+  overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  .canvas-wrapper {
+    max-width: min(820px, max(520px, calc((100dvh - 340px) * 1.8)));
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(58, 38, 74, 0.78);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.canvas-wrapper canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.overlay-content {
+  text-align: center;
+  padding: 12px;
+}
+
+#overlay-title {
+  font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+#overlay-sub {
+  font-size: clamp(0.78rem, 2.4vw, 0.95rem);
+}
+
+.controls {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* ==================== 植物卡片 ==================== */
+.plant-bar {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 820px;
+}
+
+.plant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 7px 4px;
+  border-radius: 16px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--q-ink-soft, #6e5a80);
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12);
+  transition: transform 0.1s, background 0.1s, box-shadow 0.1s, opacity 0.1s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.plant-card .emoji {
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.plant-card .name {
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.plant-card .cost {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.plant-card:hover {
+  transform: translateY(-2px);
+}
+
+.plant-card.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 0 rgba(30, 110, 70, 0.22);
+}
+
+.plant-card.selected .cost {
+  color: #fff;
+}
+
+.plant-card.disabled {
+  opacity: 0.45;
+  filter: grayscale(0.35);
+}
+
+.plant-card.tool {
+  color: #b26a00;
+}
+
+.plant-card.tool.active {
+  background: #f0a23a;
+  border-color: #f0a23a;
+  color: #fff;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .game-info {
+    gap: 6px;
+  }
+  .score-board {
+    min-width: 56px;
+    padding: 4px 9px;
+  }
+  .score-board .label {
+    font-size: 0.52rem;
+    letter-spacing: 0;
+  }
+  .score-board span:last-child {
+    font-size: 1rem;
+  }
+  .plant-bar {
+    gap: 5px;
+  }
+  .plant-card {
+    padding: 6px 2px;
+    border-radius: 13px;
+  }
+  .plant-card .emoji {
+    font-size: 1.3rem;
+  }
+  .plant-card .name {
+    font-size: 0.56rem;
+  }
+  .plant-card .cost {
+    font-size: 0.52rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .plant-card .name {
+    display: none;
+  }
+  .plant-card {
+    padding: 7px 2px;
+  }
+}

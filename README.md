@@ -1,12 +1,15 @@
 # 🎮 休闲小游戏合集
 
-15 款经典小游戏，纯原生 HTML5 + CSS3 + JavaScript 实现，零外部依赖，双击 `index.html` 即可游玩。全部游戏均配有响应式布局和 Web Audio 实时合成音效，无需任何音频文件。
+18 款经典小游戏，纯原生 HTML5 + CSS3 + JavaScript 实现，零外部依赖，双击 `index.html` 即可游玩。全部游戏均配有响应式布局和 Web Audio 实时合成音效，无需任何音频文件。
 
 ## 游戏列表
 
 | 游戏 | 目录 | 简介 |
 |------|------|------|
 | 🐍 贪吃蛇 | [snake/](snake/README.md) | 经典贪吃蛇，粒子特效 + 合成音效 |
+| 🛡️ 坦克大战 | [tank/](tank/README.md) | 保护基地，击毁敌方坦克，5 个关卡 |
+| 🌻 花园保卫战 | [garden/](garden/README.md) | 植物塔防，阳光经济 + 8 波僵尸 |
+| 👾 怪兽塔防 | [monster/](monster/README.md) | 10 关路径塔防，6 种怪兽 + 5 类武器升级 |
 | 🧱 打砖块 | [breakout/](breakout/README.md) | 多关卡打砖块，挡板 + 弹球 |
 | 🔢 2048 | [game2048/](game2048/README.md) | 数字合并益智游戏 |
 | 💎 消消乐 | [match3/](match3/README.md) | 宝石三消，连锁倍率加分 |

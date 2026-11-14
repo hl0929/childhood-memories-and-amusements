@@ -226,6 +226,9 @@ h1 {
 
 /* ==================== 数据卡片 ==================== */
 .score-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: var(--q-card);
   border: 2px solid #fff;
   border-radius: 18px;

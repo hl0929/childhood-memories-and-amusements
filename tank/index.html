@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fffaf4">
+  <title>坦克大战</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🛡️ 坦克大战</h1>
+
+    <div class="game-info">
+      <div class="score-board"><span class="label">得分</span><span id="score">0</span></div>
+      <div class="score-board"><span class="label">最高分</span><span id="high-score">0</span></div>
+      <div class="score-board"><span class="label">关卡</span><span id="level">1</span></div>
+      <div class="score-board"><span class="label">生命</span><span id="lives">3</span></div>
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="game"></canvas>
+      <div id="wave-badge" class="wave-badge">第 1 关 · 剩余 7</div>
+      <div id="overlay" class="overlay">
+        <div class="overlay-content">
+          <p id="overlay-title">坦克大战</p>
+          <p id="overlay-sub">方向键 / WASD 移动 · 空格开火</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">方向键 / WASD 移动 &nbsp;|&nbsp; 空格 开火 &nbsp;|&nbsp; P 暂停 &nbsp;|&nbsp; R 重开</div>
+
+    <div class="mobile-controls">
+      <div class="dpad">
+        <button class="ctrl-btn up" data-dir="up" aria-label="向上">▲</button>
+        <div class="dpad-row">
+          <button class="ctrl-btn" data-dir="left" aria-label="向左">◀</button>
+          <button class="ctrl-btn" data-dir="down" aria-label="向下">▼</button>
+          <button class="ctrl-btn" data-dir="right" aria-label="向右">▶</button>
+        </div>
+      </div>
+      <div class="mobile-actions">
+        <button id="fire-btn" class="fire-btn">开火</button>
+        <div class="mini-row">
+          <button id="pause-btn" class="mini-btn" aria-label="暂停">⏸</button>
+          <button id="restart-btn" class="mini-btn" aria-label="重开">↻</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../sound.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

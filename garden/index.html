@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fffaf4">
+  <title>花园保卫战</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">← 返回</a>
+    <h1>🌻 花园保卫战</h1>
+
+    <div class="game-info">
+      <div class="score-board"><span class="label">阳光</span><span id="sun">150</span></div>
+      <div class="score-board"><span class="label">得分</span><span id="score">0</span></div>
+      <div class="score-board"><span class="label">波次</span><span id="wave">0/8</span></div>
+      <div class="score-board"><span class="label">最高分</span><span id="high-score">0</span></div>
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="game"></canvas>
+      <div id="overlay" class="overlay">
+        <div class="overlay-content">
+          <p id="overlay-title">花园保卫战</p>
+          <p id="overlay-sub">选择植物 → 点击草坪种植 · 点击阳光收集</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="plant-bar" id="plant-bar">
+      <button class="plant-card" data-plant="sunflower" aria-label="向日葵">
+        <span class="emoji">🌻</span><span class="name">向日葵</span><span class="cost">☀ 50</span>
+      </button>
+      <button class="plant-card" data-plant="peashooter" aria-label="豌豆射手">
+        <span class="emoji">🌱</span><span class="name">豌豆射手</span><span class="cost">☀ 100</span>
+      </button>
+      <button class="plant-card" data-plant="wallnut" aria-label="坚果墙">
+        <span class="emoji">🌰</span><span class="name">坚果墙</span><span class="cost">☀ 50</span>
+      </button>
+      <button class="plant-card" data-plant="snowpea" aria-label="寒冰射手">
+        <span class="emoji">❄️</span><span class="name">寒冰射手</span><span class="cost">☀ 125</span>
+      </button>
+      <button class="plant-card" data-plant="cherry" aria-label="樱桃炸弹">
+        <span class="emoji">🍒</span><span class="name">樱桃炸弹</span><span class="cost">☀ 150</span>
+      </button>
+      <button id="shovel-btn" class="plant-card tool" aria-label="铲除植物">
+        <span class="emoji">🧹</span><span class="name">铲除</span><span class="cost">工具</span>
+      </button>
+    </div>
+
+    <div class="btn-row">
+      <button id="pause-btn" class="game-btn">⏸ 暂停</button>
+      <button id="restart-btn" class="game-btn">🔄 重开</button>
+    </div>
+
+    <div class="controls">选择植物 → 点击草坪格子种植 &nbsp;|&nbsp; 点击阳光收集 &nbsp;|&nbsp; P 暂停 &nbsp;|&nbsp; R 重开</div>
+  </div>
+
+  <script src="../sound.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

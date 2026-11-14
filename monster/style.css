@@ -1,0 +1,294 @@
+:root {
+  --accent: #7c5cff;
+  --accent-glow: rgba(124, 92, 255, 0.26);
+  --panel: rgba(255, 255, 255, 0.86);
+  --border: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+}
+
+.game-info {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.score-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 64px;
+  padding: 6px 14px;
+}
+
+.score-board .label {
+  font-size: 0.6rem;
+  letter-spacing: 0;
+}
+
+.score-board span:last-child {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+/* 战场 */
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  .canvas-wrapper {
+    max-width: min(600px, max(300px, calc((100dvh - 340px) * 1.25)));
+  }
+}
+
+.canvas-wrapper canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.wave-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 4;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+  pointer-events: none;
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12);
+}
+
+/* 建造 / 升级面板 */
+.tower-panel {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 20px);
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 4px 0 rgba(155, 120, 180, 0.14), 0 10px 24px rgba(120, 90, 150, 0.14);
+  white-space: nowrap;
+}
+
+.tower-panel.hidden {
+  display: none;
+}
+
+#tower-name {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--q-ink, #3e2b50);
+}
+
+.panel-btn {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 3px 0 rgba(94, 65, 190, 0.24);
+}
+
+.panel-btn.sell {
+  background: #8b789b;
+  border-color: #8b789b;
+  box-shadow: 0 3px 0 rgba(110, 90, 128, 0.2);
+}
+
+.panel-btn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(58, 38, 74, 0.78);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-content {
+  text-align: center;
+  padding: 12px;
+}
+
+#overlay-title {
+  font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+#overlay-sub {
+  font-size: clamp(0.78rem, 2.4vw, 0.95rem);
+}
+
+/* 武器卡片 */
+.tower-bar {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.tower-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 7px 3px;
+  border-radius: 16px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--q-ink-soft, #6e5a80);
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12);
+  transition: transform 0.1s, background 0.1s, box-shadow 0.1s, opacity 0.1s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tower-card .emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.tower-card .name {
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.tower-card .cost {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.tower-card:hover {
+  transform: translateY(-2px);
+}
+
+.tower-card.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 0 rgba(94, 65, 190, 0.24);
+}
+
+.tower-card.selected .cost {
+  color: #fff;
+}
+
+.tower-card.disabled {
+  opacity: 0.45;
+  filter: grayscale(0.35);
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controls {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .game-info {
+    gap: 6px;
+  }
+  .score-board {
+    min-width: 56px;
+    padding: 4px 9px;
+  }
+  .score-board .label {
+    font-size: 0.52rem;
+  }
+  .score-board span:last-child {
+    font-size: 1rem;
+  }
+  .tower-bar {
+    gap: 5px;
+  }
+  .tower-card {
+    padding: 6px 2px;
+    border-radius: 13px;
+  }
+  .tower-card .emoji {
+    font-size: 1.3rem;
+  }
+  .tower-card .name {
+    font-size: 0.56rem;
+  }
+  .tower-card .cost {
+    font-size: 0.52rem;
+  }
+  .tower-panel {
+    gap: 5px;
+    padding: 6px 8px;
+  }
+  #tower-name {
+    font-size: 0.64rem;
+  }
+  .panel-btn {
+    padding: 5px 8px;
+    font-size: 0.6rem;
+  }
+}

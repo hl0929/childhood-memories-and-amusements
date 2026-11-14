@@ -7,7 +7,7 @@
 ## 1. 项目结构
 
 - 纯原生 HTML5 + CSS3 + JavaScript，无构建步骤、无外部依赖
-- 15 个游戏，每个游戏目录包含：
+- 18 个游戏，每个游戏目录包含：
   - `index.html`
   - `style.css`
   - `script.js`
@@ -115,7 +115,7 @@ body {
 - `position: fixed`，左上角
 - 半透明胶囊 + `backdrop-filter` 毛玻璃
 - 最小高度 34px，适配触摸
-- 所有游戏（当前 15 个）都必须提供：
+- 所有游戏（当前 18 个）都必须提供：
 
 ```html
 <a class="back" href="../index.html">← 返回</a>
@@ -188,6 +188,9 @@ body {
 - **打砖块**：`max-width: min(520px, max(300px, calc(92.3dvh - 249px)))`
 - **飞机大战**：`max-width: min(420px, max(220px, calc(70dvh - 161px)))`
 - **五子棋**：`max-width: min(500px, max(300px, calc(100dvh - 320px)))`
+- **坦克大战**：方形战场，`max-width: min(520px, max(238px, calc(100dvh - 310px)))`
+- **花园保卫战**：9:5 宽画布，`max-width: min(820px, max(520px, calc((100dvh - 340px) * 1.8)))`
+- **怪兽塔防**：10:8 宽画布，`max-width: min(600px, max(300px, calc((100dvh - 340px) * 1.25)))`
 
 注意事项：
 
@@ -306,13 +309,13 @@ document.documentElement.scrollWidth <= window.innerWidth
 
 ## 8. 当前布局状态（最近一次优化）
 
-- 新增 `common.css`，统一 15 个游戏的外壳布局
+- 新增 `common.css`，统一全部游戏的外壳布局（当前 18 个）
 - 所有游戏补齐 / 统一返回按钮位置
 - 棋盘类游戏普遍增大尺寸并支持按视口高度回缩
 - 扫雷支持高级难度横向滑动
 - 数独数字键盘改为 9 列网格
 - 俄罗斯方块支持手机端大棋盘、底部状态栏和旋转重算
-- 已通过 15 个游戏加载、交互、音效触发与多尺寸截图检查
+- 已通过全部游戏加载、交互、音效触发与多尺寸截图检查
 
 ---
 
@@ -352,7 +355,7 @@ document.documentElement.scrollWidth <= window.innerWidth
 
 ### 9.3 深色游戏画布
 
-贪吃蛇、打砖块、俄罗斯方块、乒乓球、飞机大战仍保留深色 Canvas 作为「游戏屏幕」：
+贪吃蛇、打砖块、俄罗斯方块、乒乓球、飞机大战、坦克大战仍保留深色 Canvas 作为「游戏屏幕」：
 
 - 外层 `.canvas-wrapper` / `.canvas-wrap` 使用 4px 白色圆角相框
 - 画布背景统一为深梅子色（`#241b33` / `#1b1426`），与粉紫页面背景同一色系
@@ -360,7 +363,7 @@ document.documentElement.scrollWidth <= window.innerWidth
 - 遮罩标题统一为白色 + 糖果色光晕，避免深色强调色在深色画布上对比不足
 - 不要为了统一风格而把 Canvas 内部改成浅色，否则需要同步修改大量绘制代码和可读性
 
-### 9.4 DOM 棋盘表面
+### 9.4 棋盘 / 战场表面
 
 - 2048：淡紫棋盘 + 白色格子描边，保留经典数字配色
 - 消消乐：淡紫棋盘 + 白色宝石卡片
@@ -371,6 +374,9 @@ document.documentElement.scrollWidth <= window.innerWidth
 - 推箱子：淡紫墙体、奶油地板、橙色箱子、绿色完成态、蓝色玩家
 - 连连看：白色图案卡片、淡紫棋盘
 - 打地鼠：浅绿草地棋盘、棕色洞口
+- 坦克大战：深梅子色战场、珊瑚砖墙、薰衣草钢墙、绿色基地
+- 花园保卫战：浅绿棋盘草坪、左侧栅栏与小推车、Emoji 植物 / 僵尸
+- 怪兽塔防：浅绿草坪 + 米色路径、14 个建造位、紫/蓝/橙/绿武器色、Emoji 怪兽
 
 ### 9.5 按钮与弹窗
 

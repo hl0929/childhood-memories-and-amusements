@@ -1,0 +1,274 @@
+:root {
+  --accent: #3f6fe0;
+  --accent-glow: rgba(63, 111, 224, 0.26);
+  --panel: rgba(255, 255, 255, 0.86);
+  --border: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 700px;
+}
+
+.game-info {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.score-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 64px;
+  padding: 6px 14px;
+}
+
+.score-board .label {
+  font-size: 0.6rem;
+  letter-spacing: 0;
+}
+
+.score-board span:last-child {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  .canvas-wrapper {
+    max-width: min(520px, max(238px, calc(100dvh - 310px)));
+  }
+}
+
+.canvas-wrapper canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  touch-action: none;
+}
+
+/* 画布内的关卡 / 剩余敌人小徽章 */
+.wave-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 4;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  pointer-events: none;
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12);
+}
+
+.overlay-content {
+  text-align: center;
+  padding: 12px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(58, 38, 74, 0.78);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+#overlay-title {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+#overlay-sub {
+  font-size: clamp(0.78rem, 2.6vw, 0.92rem);
+}
+
+.controls {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* ==================== 移动端虚拟按键 ==================== */
+.mobile-controls {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.dpad-row {
+  display: flex;
+  gap: 4px;
+}
+
+.ctrl-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s, transform 0.1s;
+}
+
+.ctrl-btn.active,
+.ctrl-btn:active {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(1px);
+}
+
+.mobile-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.fire-btn {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: linear-gradient(135deg, #5c8dff, var(--accent));
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 5px 0 rgba(45, 80, 180, 0.3);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fire-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(45, 80, 180, 0.3);
+}
+
+.mini-row {
+  display: flex;
+  gap: 8px;
+}
+
+.mini-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--q-ink-soft, #6e5a80);
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(155, 120, 180, 0.12);
+  touch-action: manipulation;
+}
+
+/* ==================== 适配 ==================== */
+@media (hover: none), (pointer: coarse), (max-width: 520px) {
+  .mobile-controls {
+    display: flex;
+  }
+  .controls {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-info {
+    gap: 6px;
+  }
+  .score-board {
+    min-width: 56px;
+    padding: 4px 9px;
+  }
+  .score-board .label {
+    font-size: 0.52rem;
+    letter-spacing: 0;
+  }
+  .score-board span:last-child {
+    font-size: 1rem;
+  }
+  .ctrl-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 1rem;
+  }
+  .fire-btn {
+    width: 68px;
+    height: 68px;
+  }
+  .mobile-controls {
+    gap: 16px;
+  }
+  .wave-badge {
+    font-size: 0.62rem;
+    padding: 5px 9px;
+  }
+}
+
+@media (max-height: 620px) {
+  .mobile-controls {
+    gap: 12px;
+  }
+  .ctrl-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+  .fire-btn {
+    width: 58px;
+    height: 58px;
+  }
+  .mini-btn {
+    width: 30px;
+    height: 30px;
+  }
+}
